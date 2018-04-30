@@ -1,7 +1,7 @@
 #!/bin/sh
 
 wget https://www.openssl.org/source/openssl-1.1.0h.tar.gz
-tar xvf openssl-1.1.0h.tar.gz
+tar xf openssl-1.1.0h.tar.gz
 cd openssl-1.1.0h
 
 emconfigure ./Configure linux-generic64 --prefix=$EMSCRIPTEN/system
