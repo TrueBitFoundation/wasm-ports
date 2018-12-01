@@ -10,8 +10,8 @@ RUN apt-get  update \
 RUN git clone https://github.com/juj/emsdk \
  && cd emsdk \
  && ./emsdk update-tags \
- && LLVM_CMAKE_ARGS="-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly" ./emsdk install sdk-tag-1.37.36-64bit \
- && ./emsdk activate sdk-tag-1.37.36-64bit \
+ && ./emsdk install sdk-1.37.36-64bit \
+ && ./emsdk activate sdk-1.37.36-64bit \
  && ./emsdk install  binaryen-tag-1.37.36-64bit \
  && ./emsdk activate binaryen-tag-1.37.36-64bit
 
@@ -20,17 +20,25 @@ RUN cd bin \
  && mv solc-static-linux solc \
  && chmod 744 solc
 
-RUN wget http://d1h4xl4cr1h0mo.cloudfront.net/v1.10.1/x86_64-unknown-linux-gnu/parity_1.10.1_ubuntu_amd64.deb \
- && dpkg --install parity_1.10.1_ubuntu_amd64.deb \
- && (parity --chain dev &) \
- && sleep 10 \
- && killall parity
+RUN git clone https://github.com/llvm-mirror/llvm \
+ && cd llvm/tools \
+ && git clone https://github.com/llvm-mirror/clang \
+ && git clone https://github.com/llvm-mirror/lld \
+ && cd /llvm \
+ && git checkout release_60 \
+ && cd tools/clang \
+ && git checkout release_60 \
+ && cd ../lld \
+ && git checkout release_60 \
+ && mkdir /build \
+ && cd /build \
+ && cmake -G Ninja -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_PREFIX=/usr/ /llvm \
+ && ninja \
+ && ninja install \
+ && cd / \
+ && rm -rf build llvm
 
-RUN wget https://dist.ipfs.io/go-ipfs/v0.4.11/go-ipfs_v0.4.11_linux-amd64.tar.gz \
- && tar xf go-ipfs_v0.4.11_linux-amd64.tar.gz \
- && cd go-ipfs \
- && ./install.sh \
- && ipfs init
+RUN sed -i 's|/emsdk/clang/e1.37.36_64bit|/usr/bin|' /root/.emscripten
 
 RUN eval `opam config env` \
  && apt-get install libffi-dev \
@@ -47,12 +55,14 @@ RUN git clone https://github.com/TrueBitFoundation/emscripten-module-wrapper \
 
 RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && source /emsdk/emsdk_env.sh \
+ && export EMCC_WASM_BACKEND=1 \
  && cd wasm-ports \
  && apt-get install -y lzip autoconf libtool flex bison \
  && sh gmp.sh \
  && sh openssl.sh \
  && sh secp256k1.sh \
  && sh libff.sh \
- && sh boost.sh
+ && sh boost.sh \
+ && sh libpbc.sh
 
 
