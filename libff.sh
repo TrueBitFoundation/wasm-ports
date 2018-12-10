@@ -3,6 +3,7 @@
 git clone https://github.com/scipr-lab/libff
 cd libff
 git checkout 0409460
+cp ../profiling.cpp libff/common/profiling.cpp
 
 mkdir build
 cd build
@@ -12,6 +13,6 @@ cmake -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake
 make -j 12
 make install
 
-cd ..
+cd ../..
 rm -rf libff
 
