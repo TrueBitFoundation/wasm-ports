@@ -92,7 +92,7 @@ contract SampleContract {
       tru.approve(address(truebit), 1000);
       truebit.makeDeposit(1000);
       bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1, 20, 25, 8, 20, 10, 0);
-      truebit.requireFile(task, filesystem.hashName("output.data"), 0);
+      truebit.requireFile(task, filesystem.hashName("output.wasm"), 2);
       truebit.commitRequiredFiles(task);
       task_to_file[task] = dataFile;
       return filesystem.getInitHash(bundleID);
@@ -117,14 +117,15 @@ contract SampleContract {
    bytes32 remember_task;
 
    // this is the callback name
-   function solved(bytes32 id, bytes32[] memory files) public {
+   function solved(bytes32 /*id*/, bytes32[] memory files) public {
       // could check the task id
       require(TrueBit(msg.sender) == truebit);
-      remember_task = id;
       emit GotFiles(files);
+      /*
       bytes32[] memory arr = filesystem.getData(files[0]);
       emit Consuming(arr);
-      result[task_to_file[remember_task]] = arr[0];
+      result[task_to_file[id]] = arr[0];
+      */
    }
 
    // need some way to get next state, perhaps shoud give all files as args
