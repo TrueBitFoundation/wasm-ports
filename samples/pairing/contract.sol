@@ -34,10 +34,8 @@ interface TRU {
 
 contract SampleContract {
 
-   event GotFiles(bytes32[] files);
-   event Consuming(bytes32[] arr);
-   
-   event InputData(bytes32[] data);
+   event NewTask(bytes data);
+   event FinishedTask(bytes data, bytes32 result);
 
    uint nonce;
    TrueBit truebit;
@@ -79,7 +77,7 @@ contract SampleContract {
       nonce++;
 
       bytes32[] memory input = formatData(data);
-      emit InputData(input);
+      emit NewTask(data);
 
       bytes32 bundleID = filesystem.makeBundle(num);
 
@@ -108,7 +106,6 @@ contract SampleContract {
       nonce++;
 
       bytes32[] memory input = formatData(data);
-      emit InputData(input);
 
       bytes32 bundleID = filesystem.makeBundle(num);
 
@@ -132,10 +129,9 @@ contract SampleContract {
       // could check the task id
       require(TrueBit(msg.sender) == truebit);
       remember_task = id;
-      emit GotFiles(files);
       bytes32[] memory arr = filesystem.getData(files[0]);
-      emit Consuming(arr);
       result[task_to_string[remember_task]] = arr[0];
+      emit FinishedTask(task_to_string[remember_task], arr[0]);
    }
 
    // need some way to get next state, perhaps shoud give all files as args
