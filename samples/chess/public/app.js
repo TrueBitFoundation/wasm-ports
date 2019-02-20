@@ -16,9 +16,9 @@ function listenEvents() {
 			console.log(result)
 			if (hashes[result.transactionHash]) return
 			hashes[result.transactionHash] = true
-			let hash = result.args.result
+			let res = Buffer.from(result.args.result.map(a => a.substr(2)).join(""), "hex").toString()
 			let data = Buffer.from(result.args.data.substr(2), "hex").toString()
-			document.getElementById('tb-result').innerHTML += data + ": " + hash + "<br>"
+			document.getElementById('tb-result').innerHTML += data + ": " + res + "<br>"
 		} else if(err) {
 			console.error(err)
 		}
