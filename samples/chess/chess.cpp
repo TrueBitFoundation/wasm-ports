@@ -7,6 +7,13 @@
 
 using namespace std;
 
+void result(int num, const char *string) {
+  std::ofstream t("output.data");
+  t << "At move " << num << " " << string << endl;
+  t.close();
+  exit(0);
+}
+
 void move(string &state, int x1, int y1, int x2, int y2) {
   char tmp = state[x1+y1*8];
   state[x1+y1*8] = ' ';
@@ -77,12 +84,12 @@ bool checkWhiteMove(string &state, int x1, int y1, int x2, int y2) {
   // first check that we have a white piece
   char piece = state[x1+y1*8];
   if (piece < 'A' || piece > 'Z') {
-    cout << "No white piece" << endl;
+    // cout << "No white piece" << endl;
     return false;
   }
   char other = state[x2+y2*8];
   if (other > 'A' && other < 'Z') {
-    cout << "White cannot eat white" << endl;
+    // cout << "White cannot eat white" << endl;
     return false;
   }
   if (piece == 'S') {
@@ -97,7 +104,7 @@ bool checkWhiteMove(string &state, int x1, int y1, int x2, int y2) {
      }
   }
   if (!checkPieceMove(state, x1, y1, x2, y2, tolower(piece))) {
-     cout << "invalid move for piece " << piece << endl;
+     // cout << "invalid move for piece " << piece << endl;
      return false;
   }
   return true;
@@ -107,12 +114,12 @@ bool checkBlackMove(string &state, int x1, int y1, int x2, int y2) {
   // first check that we have a white piece
   char piece = state[x1+y1*8];
   if (piece < 'a' || piece > 'z') {
-    cout << "No black piece" << endl;
+    // cout << "No black piece" << endl;
     return false;
   }
   char other = state[x2+y2*8];
   if (other > 'a' && other < 'z') {
-    cout << "Black cannot eat black" << endl;
+    // cout << "Black cannot eat black" << endl;
     return false;
   }
   if (piece == 's') {
@@ -127,7 +134,7 @@ bool checkBlackMove(string &state, int x1, int y1, int x2, int y2) {
      }
   }
   if (!checkPieceMove(state, x1, y1, x2, y2, tolower(piece))) {
-     cout << "Invalid move for piece " << piece << endl;
+     // cout << "Invalid move for piece " << piece << endl;
      return false;
   }
   return true;
@@ -172,8 +179,7 @@ bool performBlackMove(string &state, int x1, int y1, int x2, int y2) {
       return true;
 }
 
-bool chessMate(string &state, bool white) {
-  if (!hasChess(state, white)) return false;
+bool isStuck(string &state, bool white) {
   for (int x1 = 0; x1 < 8; x1++) {
     for (int y1 = 0; y1 < 8; y1++) {
       for (int x2 = 0; x2 < 8; x2++) {
@@ -192,8 +198,18 @@ bool chessMate(string &state, bool white) {
   return true;
 }
 
+bool checkMate(string &state, bool white) {
+  if (!hasChess(state, white)) return false;
+  else return isStuck(state, white);
+}
+
+bool staleMate(string &state, bool white) {
+  if (hasChess(state, white)) return false;
+  else return isStuck(state, white);
+}
+
 int main(int argc, char **argv) {
-  std::ifstream t("file.txt");
+  std::ifstream t("input.data");
   std::stringstream buffer;
   buffer << t.rdbuf();
 
@@ -212,12 +228,24 @@ int main(int argc, char **argv) {
     int x2 = m2 % 8; int y2 = (m2/8) % 8;
     if (x1 == x2 && y1 == y2) {
       cout << "Empty move" << endl;
+      if (white) result(i/2, "Empty move from white");
+      else result(i/2, "Empty move from black");
     }
     else if (white) {
-      performWhiteMove(state, x1, y1, x2, y2);
+      if (!performWhiteMove(state, x1, y1, x2, y2)) {
+        result(i/2, "White move illegal");
+      }
+      if (checkMate(state, false)) {
+        result(i/2, "Black at chessmate, white wins");
+      }
     }
     else {
-      performBlackMove(state, x1, y1, x2, y2);
+      if (!performBlackMove(state, x1, y1, x2, y2)) {
+        result(i/2, "Black move illegal");
+      }
+      if (checkMate(state, true)) {
+        result(i/2, "White at chessmate, white wins");
+      }
     }
     if (prev_states.find(state) == prev_states.end()) {
       prev_states[state] = 1;
@@ -225,8 +253,17 @@ int main(int argc, char **argv) {
     else {
       prev_states[state] = prev_states[state] + 1;
     }
+
+    if (prev_states[state] >= 3) {
+      cout << "A " << prev_states[state] << endl;
+      result(i/2, "Stalemate, repeated piece configuration");
+    }
     cout << state << ":" <<  prev_states[state] << endl;
     white = !white;
+
+    if (staleMate(state, white)) {
+      result(i/2, "Stalemate, no moves");
+    }
   }
   return 0;
 }
