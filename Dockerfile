@@ -51,12 +51,14 @@ RUN eval `opam config env` \
 RUN git clone https://github.com/TrueBitFoundation/emscripten-module-wrapper \
  && source /emsdk/emsdk_env.sh \
  && cd emscripten-module-wrapper \
+ && git checkout v2 \
  && npm install
 
 RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && source /emsdk/emsdk_env.sh \
  && export EMCC_WASM_BACKEND=1 \
  && cd wasm-ports \
+ && git checkout v2 \
  && apt-get install -y lzip autoconf libtool flex bison \
  && sh gmp.sh \
  && sh openssl.sh \
@@ -65,4 +67,5 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && sh boost.sh \
  && sh libpbc.sh
 
+RUN ln -s /emscripten-module-wrapper /root/emscripten-module-wrapper
 
