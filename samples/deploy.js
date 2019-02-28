@@ -14,6 +14,12 @@ const web3 = new Web3(new Web3.providers.HttpProvider(host))
 
 const merkleRoot = require('./merkleRoot')
 
+const getNetwork = async () => {
+    let id = await web3.eth.net.getId()
+    if (id == 5) return "goerli"
+    else return await web3.eth.net.getNetworkType()
+}
+
 async function addIPFSFile(tbFileSystem, account, name, buf) {
     let ipfsFile = (await ipfs.files.add([{content: buf, path: name}]))[0]
 
@@ -51,7 +57,7 @@ async function deploy() {
 
     //Deploy contract with appropriate artifacts
 
-    let networkName = await web3.eth.net.getNetworkType()
+    let networkName = await getNetwork()
 
     let artifacts = JSON.parse(fs.readFileSync('../../truebit-os/wasm-client/' + networkName + '.json'))
 

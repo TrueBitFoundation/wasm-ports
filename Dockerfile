@@ -15,11 +15,6 @@ RUN git clone https://github.com/juj/emsdk \
  && ./emsdk install  binaryen-tag-1.37.36-64bit \
  && ./emsdk activate binaryen-tag-1.37.36-64bit
 
-RUN cd bin \
- && wget https://github.com/ethereum/solidity/releases/download/v0.4.23/solc-static-linux \
- && mv solc-static-linux solc \
- && chmod 744 solc
-
 RUN git clone https://github.com/llvm-mirror/llvm \
  && cd llvm/tools \
  && git clone https://github.com/llvm-mirror/clang \
@@ -46,7 +41,13 @@ RUN eval `opam config env` \
  && opam install cryptokit yojson ctypes ctypes-foreign -y \
  && git clone https://github.com/TrueBitFoundation/ocaml-offchain \
  && cd ocaml-offchain/interpreter \
+ && git checkout v2 \
  && make
+
+RUN cd bin \
+ && wget https://github.com/ethereum/solidity/releases/download/v0.5.2/solc-static-linux \
+ && mv solc-static-linux solc \
+ && chmod 744 solc
 
 RUN git clone https://github.com/TrueBitFoundation/emscripten-module-wrapper \
  && source /emsdk/emsdk_env.sh \

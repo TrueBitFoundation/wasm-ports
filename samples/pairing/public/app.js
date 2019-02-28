@@ -1,10 +1,43 @@
 const truffleContract = require('truffle-contract')
 
-function showResult(hash) {
-    return "<div>Output from TrueBit solver:</div> <div>" + hash + "</div>"
-}
+var listening = false
+
+var hashes = {}
 
 var fileSystem, sampleSubmitter, account
+
+function listenEvents() {
+
+	if (listening) return
+	listening = true
+
+	sampleSubmitter.FinishedTask().watch(function(err, result) {
+		if (result) {
+			console.log(result)
+			if (hashes[result.transactionHash]) return
+			hashes[result.transactionHash] = true
+			let hash = result.args.result
+			let data = Buffer.from(result.args.data.substr(2), "hex").toString()
+			document.getElementById('tb-result').innerHTML += data + ": " + hash + "<br>"
+		} else if(err) {
+			console.error(err)
+		}
+	})
+
+	sampleSubmitter.NewTask().watch(function(err, result) {
+		if (result) {
+			console.log(result)
+			if (hashes[result.transactionHash]) return
+			hashes[result.transactionHash] = true
+			let data = Buffer.from(result.args.data.substr(2), "hex").toString()
+			// let data = result.args.data
+			document.getElementById('tb-result').innerHTML += "Submitted task " + data + "<br>"
+		} else if(err) {
+			console.error(err)
+		}
+	})
+
+}
 
 function getTruebitResult(data) {
 
@@ -12,36 +45,14 @@ function getTruebitResult(data) {
       console.log("Debug data:", res)
     })
 
-    return sampleSubmitter.submitData(data, {gas: 2000000, from: account}).then(function(txHash) {
-
-	const gotFilesEvent = sampleSubmitter.GotFiles()
-
-	return new Promise((resolve, reject) => {
-	    gotFilesEvent.watch(function(err, result) {
-		if (result) {
-		    gotFilesEvent.stopWatching(x => {})
-		    resolve(result.args.files[0])
-		} else if(err) {
-		    reject()
-		}
-	    })
-	})
-    }).then(function(fileID) {
-	return fileSystem.getData.call(fileID)
-    }).then(function(lst) {
-	return lst[0]
-    })
+    return sampleSubmitter.submitData(data, {gas: 2000000, from: account}).then(function(txHash) {})
 
 }
 
 window.runSample = function () {
     data = document.getElementById('input-data').value
-    // hash = calcScrypt(data)
-    // document.getElementById('js-scrypt').innerHTML = showJSScrypt("0x" + s.to_hex(hash))
 
-    getTruebitResult(data).then(function(truHash) {
-	document.getElementById('tb-result').innerHTML = showResult(truHash)
-    })
+	getTruebitResult(data)
 }
 
 function getArtifacts(networkName) {
@@ -68,7 +79,10 @@ function getArtifacts(networkName) {
 
 	    sampleSubmitter = await sampleSubmitter.at(artifacts.sample.address)
 
-	    account = window.web3.eth.defaultAccount
+		account = window.web3.eth.defaultAccount
+		
+		listenEvents()
+
 	}
     }
 
@@ -89,14 +103,17 @@ function init() {
 		getArtifacts('main')
 	    } else if(netId == '3') {
 		getArtifacts('ropsten')
-	    } else if(netId == '4') {
+	} else if(netId == '4') {
 		getArtifacts('rinkeby')
+	} else if(netId == '5') {
+		getArtifacts('goerli')
 	    } else if(netId == '42') {
 		getArtifacts('kovan')
 	    } else {
 		getArtifacts('private')
 	    }
 	})
+
     }
 }
 
