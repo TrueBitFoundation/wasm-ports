@@ -55,11 +55,6 @@ RUN git clone https://github.com/TrueBitFoundation/emscripten-module-wrapper \
  && git checkout v2 \
  && npm install
 
-RUN cd bin \
- && wget https://github.com/ethereum/solidity/releases/download/v0.5.2/solc-static-linux \
- && mv solc-static-linux solc \
- && chmod 744 solc
-
 RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && source /emsdk/emsdk_env.sh \
  && export EMCC_WASM_BACKEND=1 \
@@ -84,6 +79,7 @@ RUN wget https://dist.ipfs.io/go-ipfs/v0.4.17/go-ipfs_v0.4.17_linux-amd64.tar.gz
  && rm -rf go-ipfs*
 
 RUN cd wasm-ports/samples/pairing \
+ && git pull \
  && source /emsdk/emsdk_env.sh \
  && ( ipfs daemon & ) \
  && export EMCC_WASM_BACKEND=1 \
