@@ -75,9 +75,17 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
 
 RUN ln -s /emscripten-module-wrapper /root/emscripten-module-wrapper
 
+RUN wget https://dist.ipfs.io/go-ipfs/v0.4.17/go-ipfs_v0.4.17_linux-amd64.tar.gz \
+ && tar xf go-ipfs_v0.4.17_linux-amd64.tar.gz \
+ && cd go-ipfs \
+ && ./install.sh \
+ && ipfs init \
+ && cd / \
+ && rm -rf go-ipfs*
+
 RUN cd wasm-ports/samples/pairing \
  && source /emsdk/emsdk_env.sh \
- && ipfs daemon & \
+ && ( ipfs daemon & ) \
  && export EMCC_WASM_BACKEND=1 \
  && sh compile.sh \
  && cd ../scrypt \
