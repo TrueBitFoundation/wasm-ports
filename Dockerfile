@@ -55,6 +55,11 @@ RUN git clone https://github.com/TrueBitFoundation/emscripten-module-wrapper \
  && git checkout v2 \
  && npm install
 
+RUN cd bin \
+ && wget https://github.com/ethereum/solidity/releases/download/v0.5.2/solc-static-linux \
+ && mv solc-static-linux solc \
+ && chmod 744 solc
+
 RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && source /emsdk/emsdk_env.sh \
  && export EMCC_WASM_BACKEND=1 \
@@ -69,4 +74,14 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && sh libpbc.sh
 
 RUN ln -s /emscripten-module-wrapper /root/emscripten-module-wrapper
+
+RUN cd wasm-ports/samples/pairing \
+ && source /emsdk/emsdk_env.sh \
+ && ipfs daemon & \
+ && export EMCC_WASM_BACKEND=1 \
+ && sh compile.sh \
+ && cd ../scrypt \
+ && sh compile.sh \
+ && cd ../chess \
+ && sh compile.sh
 
