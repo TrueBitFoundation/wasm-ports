@@ -52,12 +52,14 @@ RUN cd bin \
 RUN git clone https://github.com/TrueBitFoundation/emscripten-module-wrapper \
  && source /emsdk/emsdk_env.sh \
  && cd emscripten-module-wrapper \
+ && git checkout v2 \
  && npm install
 
 RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && source /emsdk/emsdk_env.sh \
  && export EMCC_WASM_BACKEND=1 \
  && cd wasm-ports \
+ && git checkout v2 \
  && apt-get install -y lzip autoconf libtool flex bison \
  && sh gmp.sh \
  && sh openssl.sh \
@@ -66,4 +68,24 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && sh boost.sh \
  && sh libpbc.sh
 
+RUN ln -s /emscripten-module-wrapper /root/emscripten-module-wrapper
+
+RUN wget https://dist.ipfs.io/go-ipfs/v0.4.17/go-ipfs_v0.4.17_linux-amd64.tar.gz \
+ && tar xf go-ipfs_v0.4.17_linux-amd64.tar.gz \
+ && cd go-ipfs \
+ && ./install.sh \
+ && ipfs init \
+ && cd / \
+ && rm -rf go-ipfs*
+
+RUN cd wasm-ports/samples/pairing \
+ && git pull \
+ && source /emsdk/emsdk_env.sh \
+ && ( ipfs daemon & ) \
+ && export EMCC_WASM_BACKEND=1 \
+ && sh compile.sh \
+ && cd ../scrypt \
+ && sh compile.sh \
+ && cd ../chess \
+ && sh compile.sh
 
