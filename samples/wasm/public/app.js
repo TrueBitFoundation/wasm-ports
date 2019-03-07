@@ -1,7 +1,6 @@
 const truffleContract = require('truffle-contract')
 const ipfs = require('ipfs-api')("localhost", '5001', { protocol: 'http' })
-
-const merkleRoot = require('./merkleRoot')
+const merkleRoot = require('truebit-util').merkleRoot
 
 async function addIPFSFile(tbFileSystem, account, name, buf, orig_name) {
 
@@ -14,12 +13,12 @@ async function addIPFSFile(tbFileSystem, account, name, buf, orig_name) {
 
 	//setup file
 	let fileNonce = Math.floor(Math.random() * Math.pow(2, 30))
-	let mr = merkleRoot(x => window.web3.sha3(x, { encoding: "hex" }), buf)
-	console.log("with root", mr)
+	let mr = merkleRoot(x => window.web3.sha3(x, { encoding: "hex" }).substr(2), buf)
+	console.log("with root", name, size, ipfsHash, mr, fileNonce)
 
 	let fileID = await tbFileSystem.calcId.call(fileNonce, { from: account })
 
-	await tbFileSystem.addIPFSFile(name, size, ipfsHash, mr, fileNonce, { from: account, gas: 300000 })
+	await tbFileSystem.addIPFSFile(name, size, ipfsHash, mr, fileNonce, { from: account, gas: 3000000 })
 
 	console.log("Uploaded file", name, "with root", mr)
 

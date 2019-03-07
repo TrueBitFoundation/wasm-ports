@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /emsdk/emsdk_env.sh
+#source /emsdk/emsdk_env.sh
 
 apt-get install lzip
 wget https://gmplib.org/download/gmp/gmp-6.1.2.tar.lz

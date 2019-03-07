@@ -1772,11 +1772,11 @@ var ASM_CONSTS = [];
 
 STATIC_BASE = GLOBAL_BASE;
 
-STATICTOP = STATIC_BASE + 44608;
+STATICTOP = STATIC_BASE + 44496;
 /* global initializers */  __ATINIT__.push({ func: function() { __GLOBAL__I_000101() } }, { func: function() { ___cxx_global_var_init() } }, { func: function() { ___cxx_global_var_init_9() } }, { func: function() { __GLOBAL__sub_I_alt_bn128_g1_cpp() } }, { func: function() { ___cxx_global_var_init_8() } }, { func: function() { ___cxx_global_var_init_9_18() } }, { func: function() { ___cxx_global_var_init_10() } }, { func: function() { __GLOBAL__sub_I_alt_bn128_g2_cpp() } }, { func: function() { ___cxx_global_var_init_67() } }, { func: function() { ___cxx_global_var_init_68() } }, { func: function() { ___cxx_global_var_init_69() } }, { func: function() { ___cxx_global_var_init_70() } }, { func: function() { ___cxx_global_var_init_71() } }, { func: function() { ___cxx_global_var_init_72() } }, { func: function() { ___cxx_global_var_init_73() } }, { func: function() { ___cxx_global_var_init_76() } }, { func: function() { ___cxx_global_var_init_79() } }, { func: function() { ___cxx_global_var_init_80() } }, { func: function() { ___cxx_global_var_init_81() } }, { func: function() { ___cxx_global_var_init_82() } }, { func: function() { ___cxx_global_var_init_83() } }, { func: function() { __GLOBAL__sub_I_profiling_cpp() } }, { func: function() { __GLOBAL__sub_I_iostream_cpp() } });
 
 
-var STATIC_BUMP = 44608;
+var STATIC_BUMP = 44496;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 
