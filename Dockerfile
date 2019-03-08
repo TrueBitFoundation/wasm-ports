@@ -89,3 +89,51 @@ RUN cd wasm-ports/samples/pairing \
  && cd ../chess \
  && sh compile.sh
 
+RUN apt-get  update \
+ && apt-get install -y git cmake ninja-build g++ python wget ocaml opam libzarith-ocaml-dev m4 pkg-config zlib1g-dev psmisc sudo curl tmux nano npm apache2 \
+ && opam init -y \
+ && npm install -g ganache-cli mocha browserify
+
+RUN git clone https://github.com/mrsmkl/truebit-os \
+ && cd truebit-os \
+ && git checkout v2gp \
+ && npm i --production \
+ && npm run deps \
+ && npm run  compile \
+ && rm -rf ~/.opam
+
+RUN git clone https://github.com/mrsmkl/example-app \
+ && cd example-app \
+ && git checkout v2 \
+ && npm i \
+ && ln -s /truebit-os . \
+ && ln -s /example-app/public /var/www/html/app \
+ && browserify public/js/app.js -o public/js/bundle.js
+
+RUN git clone https://github.com/TruebitFoundation/jit-runner \
+ && cd jit-runner \
+ && git checkout v2 \
+ && npm i
+
+RUN cd emscripten-module-wrapper \
+ && git pull
+
+
+RUN wget -O rustup.sh https://sh.rustup.rs \
+ && sh rustup.sh -y \
+ && source $HOME/.cargo/env \
+ && rustup toolchain add stable \
+ && git clone https://github.com/goerli/parity-goerli.git \
+ && cd parity-goerli \
+ && source $HOME/.cargo/env \
+ && apt-get install -y libudev-dev \
+ && cargo build --release --features final \
+ && cd / \
+ && cp /parity-goerli/target/release/parity /bin \
+ && rm -rf /parity-goerli ~/.rustup ~/.cargo
+
+RUN cd truebit-os \
+ && git pull \
+ && git checkout readme-1
+
+EXPOSE 4001 30303 80 8545
