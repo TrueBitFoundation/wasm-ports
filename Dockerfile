@@ -44,6 +44,32 @@ RUN eval `opam config env` \
  && git checkout v2 \
  && make
 
+RUN wget https://dist.ipfs.io/go-ipfs/v0.4.17/go-ipfs_v0.4.17_linux-amd64.tar.gz \
+ && tar xf go-ipfs_v0.4.17_linux-amd64.tar.gz \
+ && cd go-ipfs \
+ && ./install.sh \
+ && ipfs init \
+ && cd / \
+ && rm -rf go-ipfs*
+
+RUN apt-get  update \
+ && apt-get install -y git cmake ninja-build g++ python wget ocaml opam libzarith-ocaml-dev m4 pkg-config zlib1g-dev psmisc sudo curl tmux nano npm apache2 \
+ && opam init -y \
+ && npm install -g ganache-cli mocha browserify
+
+RUN wget -O rustup.sh https://sh.rustup.rs \
+ && sh rustup.sh -y \
+ && source $HOME/.cargo/env \
+ && rustup toolchain add stable \
+ && git clone https://github.com/goerli/parity-goerli.git \
+ && cd parity-goerli \
+ && source $HOME/.cargo/env \
+ && apt-get install -y libudev-dev \
+ && cargo build --release --features final \
+ && cd / \
+ && cp /parity-goerli/target/release/parity /bin \
+ && rm -rf /parity-goerli ~/.rustup ~/.cargo
+
 RUN cd bin \
  && wget https://github.com/ethereum/solidity/releases/download/v0.5.2/solc-static-linux \
  && mv solc-static-linux solc \
@@ -70,14 +96,6 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
 
 RUN ln -s /emscripten-module-wrapper /root/emscripten-module-wrapper
 
-RUN wget https://dist.ipfs.io/go-ipfs/v0.4.17/go-ipfs_v0.4.17_linux-amd64.tar.gz \
- && tar xf go-ipfs_v0.4.17_linux-amd64.tar.gz \
- && cd go-ipfs \
- && ./install.sh \
- && ipfs init \
- && cd / \
- && rm -rf go-ipfs*
-
 RUN cd wasm-ports/samples/pairing \
  && git pull \
  && source /emsdk/emsdk_env.sh \
@@ -89,18 +107,18 @@ RUN cd wasm-ports/samples/pairing \
  && cd ../chess \
  && sh compile.sh
 
-RUN apt-get  update \
- && apt-get install -y git cmake ninja-build g++ python wget ocaml opam libzarith-ocaml-dev m4 pkg-config zlib1g-dev psmisc sudo curl tmux nano npm apache2 \
- && opam init -y \
- && npm install -g ganache-cli mocha browserify
-
 RUN git clone https://github.com/mrsmkl/truebit-os \
  && cd truebit-os \
- && git checkout v2gp \
+ && git checkout utils \
  && npm i --production \
  && npm run deps \
  && npm run  compile \
  && rm -rf ~/.opam
+
+RUN git clone https://github.com/TruebitFoundation/jit-runner \
+ && cd jit-runner \
+ && git checkout v2 \
+ && npm i
 
 RUN git clone https://github.com/mrsmkl/example-app \
  && cd example-app \
@@ -110,30 +128,13 @@ RUN git clone https://github.com/mrsmkl/example-app \
  && ln -s /example-app/public /var/www/html/app \
  && browserify public/js/app.js -o public/js/bundle.js
 
-RUN git clone https://github.com/TruebitFoundation/jit-runner \
- && cd jit-runner \
- && git checkout v2 \
- && npm i
-
-RUN cd emscripten-module-wrapper \
- && git pull
-
-
-RUN wget -O rustup.sh https://sh.rustup.rs \
- && sh rustup.sh -y \
- && source $HOME/.cargo/env \
- && rustup toolchain add stable \
- && git clone https://github.com/goerli/parity-goerli.git \
- && cd parity-goerli \
- && source $HOME/.cargo/env \
- && apt-get install -y libudev-dev \
- && cargo build --release --features final \
- && cd / \
- && cp /parity-goerli/target/release/parity /bin \
- && rm -rf /parity-goerli ~/.rustup ~/.cargo
-
-RUN cd truebit-os \
+RUN cd wasm-ports/samples/pairing \
  && git pull \
- && git checkout readme-1
+ && npm i \
+ && cd /wasm-ports \
+ && ln -s /truebit-os .
+
+RUN cd truebit-os  \
+ && git   pull
 
 EXPOSE 4001 30303 80 8545

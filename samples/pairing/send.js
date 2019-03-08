@@ -8,6 +8,7 @@ const Web3 = require('web3')
 const web3 = new Web3(new Web3.providers.HttpProvider(host))
 
 const getNetwork = require('truebit-util').getNetwork
+const merkleRoot = require('truebit-util').merkleRoot.web3
 
 let account, fileSystem, sampleSubmitter
 
@@ -27,6 +28,9 @@ async function main() {
     console.log("computing bilinear pairing for", str)
     let dta = new Buffer(str)
 
+    console.log("calc root", merkleRoot(web3, dta))
+
+    console.log(await sampleSubmitter.methods.debugData(dta).call({ gas: 2000000, from: account }))
     await sampleSubmitter.methods.submitData(dta).send({ gas: 2000000, from: account })
     let solution = "0x0000000000000000000000000000000000000000000000000000000000000000"
     while (solution == "0x0000000000000000000000000000000000000000000000000000000000000000") {

@@ -102,7 +102,28 @@ contract SampleContract {
       return filesystem.getInitHash(bundleID);
    }
 
-   function debugData(bytes memory data) public returns (bytes32, bytes32, bytes32, bytes32, bytes32) {
+/*
+    function calc_depth(uint x) internal pure returns (uint) {
+        if (x <= 1) return 0;
+        else return 1 + calc_depth(x / 2);
+   }
+
+   function debugData(bytes memory data) public returns (bytes32, uint, bytes32, bytes32[] memory) {
+      uint num = nonce;
+      nonce++;
+
+      bytes32[] memory input = formatData(data);
+
+      bytes32 inputFileID = filesystem.createFileWithContents("input.data", num, input, data.length);
+      return (filesystem.getRoot(inputFileID), calc_depth(input.length*2-1), fileMerkle(input, 0, 3), input);
+   }
+
+    function fileMerkle(bytes32[] memory arr, uint idx, uint level) internal returns (bytes32) {
+	if (level == 0) return idx < arr.length ? keccak256(abi.encodePacked(arr[idx])) : keccak256(abi.encodePacked(bytes16(0), bytes16(0)));
+	else return keccak256(abi.encodePacked(fileMerkle(arr, idx, level-1), fileMerkle(arr, idx+(2**(level-1)), level-1)));
+    }
+
+   function debugData2(bytes memory data) public returns (bytes32, bytes32, bytes32, bytes32, bytes32) {
       uint num = nonce;
       nonce++;
 
@@ -121,7 +142,7 @@ contract SampleContract {
       
       return filesystem.debugFinalizeBundle(bundleID, codeFileID);
  
-   }
+   }*/
 
    bytes32 remember_task;
 

@@ -56,7 +56,7 @@ async function deploy() {
     let accounts = await web3.eth.getAccounts()
     let account = accounts[0]
 
-    let options = {from: accounts[0].toLowerCase(), gas: 2000000}
+    let options = {from: accounts[0].toLowerCase(), gas: 4000000}
 
     let bundleID, codeFileID
     let initHash = info.codehash
