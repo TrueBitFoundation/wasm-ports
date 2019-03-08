@@ -116,7 +116,6 @@ function newIPFSFile() {
 		addIPFSFile(fileSystem, account, "input.wasm", Buffer.from(fr.result, "binary"), name)
 	}
 	fr.readAsBinaryString(el.files[0])
-	
 }
 
 function init() {

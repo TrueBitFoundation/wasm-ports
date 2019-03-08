@@ -117,15 +117,11 @@ contract SampleContract {
    bytes32 remember_task;
 
    // this is the callback name
-   function solved(bytes32 /*id*/, bytes32[] memory files) public {
+   function solved(bytes32 id, bytes32[] memory files) public {
       // could check the task id
       require(TrueBit(msg.sender) == truebit);
       emit GotFiles(files);
-      /*
-      bytes32[] memory arr = filesystem.getData(files[0]);
-      emit Consuming(arr);
-      result[task_to_file[id]] = arr[0];
-      */
+      result[task_to_file[id]] = files[0];
    }
 
    // need some way to get next state, perhaps shoud give all files as args
