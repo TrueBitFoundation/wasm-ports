@@ -1772,11 +1772,11 @@ var ASM_CONSTS = [];
 
 STATIC_BASE = GLOBAL_BASE;
 
-STATICTOP = STATIC_BASE + 44608;
-/* global initializers */  __ATINIT__.push({ func: function() { __GLOBAL__I_000101() } }, { func: function() { ___cxx_global_var_init() } }, { func: function() { ___cxx_global_var_init_9() } }, { func: function() { __GLOBAL__sub_I_alt_bn128_g1_cpp() } }, { func: function() { ___cxx_global_var_init_8() } }, { func: function() { ___cxx_global_var_init_9_18() } }, { func: function() { ___cxx_global_var_init_10() } }, { func: function() { __GLOBAL__sub_I_alt_bn128_g2_cpp() } }, { func: function() { ___cxx_global_var_init_67() } }, { func: function() { ___cxx_global_var_init_68() } }, { func: function() { ___cxx_global_var_init_69() } }, { func: function() { ___cxx_global_var_init_70() } }, { func: function() { ___cxx_global_var_init_71() } }, { func: function() { ___cxx_global_var_init_72() } }, { func: function() { ___cxx_global_var_init_73() } }, { func: function() { ___cxx_global_var_init_76() } }, { func: function() { ___cxx_global_var_init_79() } }, { func: function() { ___cxx_global_var_init_80() } }, { func: function() { ___cxx_global_var_init_81() } }, { func: function() { ___cxx_global_var_init_82() } }, { func: function() { ___cxx_global_var_init_83() } }, { func: function() { __GLOBAL__sub_I_profiling_cpp() } }, { func: function() { __GLOBAL__sub_I_iostream_cpp() } });
+STATICTOP = STATIC_BASE + 43840;
+/* global initializers */  __ATINIT__.push({ func: function() { __GLOBAL__I_000101() } }, { func: function() { ___cxx_global_var_init() } }, { func: function() { ___cxx_global_var_init_9() } }, { func: function() { __GLOBAL__sub_I_alt_bn128_g1_cpp() } }, { func: function() { ___cxx_global_var_init_8() } }, { func: function() { ___cxx_global_var_init_9_14() } }, { func: function() { ___cxx_global_var_init_10() } }, { func: function() { __GLOBAL__sub_I_alt_bn128_g2_cpp() } }, { func: function() { ___cxx_global_var_init_67() } }, { func: function() { ___cxx_global_var_init_68() } }, { func: function() { ___cxx_global_var_init_69() } }, { func: function() { ___cxx_global_var_init_70() } }, { func: function() { ___cxx_global_var_init_71() } }, { func: function() { ___cxx_global_var_init_72() } }, { func: function() { ___cxx_global_var_init_73() } }, { func: function() { ___cxx_global_var_init_76() } }, { func: function() { ___cxx_global_var_init_79() } }, { func: function() { ___cxx_global_var_init_80() } }, { func: function() { ___cxx_global_var_init_81() } }, { func: function() { ___cxx_global_var_init_82() } }, { func: function() { ___cxx_global_var_init_83() } }, { func: function() { __GLOBAL__sub_I_profiling_cpp() } }, { func: function() { __GLOBAL__sub_I_iostream_cpp() } });
 
 
-var STATIC_BUMP = 44608;
+var STATIC_BUMP = 43840;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 
@@ -5407,17 +5407,6 @@ addOnExit(outputRecord)
   }
   }
 
-  function ___syscall3(which, varargs) {SYSCALLS.varargs = varargs;
-  try {
-   // read
-      var stream = SYSCALLS.getStreamFromFD(), buf = SYSCALLS.get(), count = SYSCALLS.get();
-      return FS.read(stream, HEAP8,buf, count);
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
-    return -e.errno;
-  }
-  }
-
   function ___syscall5(which, varargs) {SYSCALLS.varargs = varargs;
   try {
    // open
@@ -6054,7 +6043,7 @@ function intArrayToString(array) {
 
 Module.asmGlobalArg = {};
 
-Module.asmLibraryArg = { "abort": abort, "assert": assert, "enlargeMemory": enlargeMemory, "getTotalMemory": getTotalMemory, "abortOnCannotGrowMemory": abortOnCannotGrowMemory, "invoke_diii": invoke_diii, "invoke_fiii": invoke_fiii, "invoke_i": invoke_i, "invoke_ii": invoke_ii, "invoke_iii": invoke_iii, "invoke_iiii": invoke_iiii, "invoke_iiiii": invoke_iiiii, "invoke_iiiiii": invoke_iiiiii, "invoke_iiiiiii": invoke_iiiiiii, "invoke_iiiiiiii": invoke_iiiiiiii, "invoke_iiiiiiiii": invoke_iiiiiiiii, "invoke_iiiiiiiiiii": invoke_iiiiiiiiiii, "invoke_iiiiiiiiiiii": invoke_iiiiiiiiiiii, "invoke_iiiiiiiiiiiii": invoke_iiiiiiiiiiiii, "invoke_jiiii": invoke_jiiii, "invoke_v": invoke_v, "invoke_vi": invoke_vi, "invoke_vii": invoke_vii, "invoke_viii": invoke_viii, "invoke_viiii": invoke_viiii, "invoke_viiiiiii": invoke_viiiiiii, "invoke_viiiiiiiiii": invoke_viiiiiiiiii, "invoke_viiiiiiiiiiiiiii": invoke_viiiiiiiiiiiiiii, "___syscall221": ___syscall221, "_fabs": _fabs, "_pthread_cond_wait": _pthread_cond_wait, "___cxa_rethrow": ___cxa_rethrow, "__ZSt18uncaught_exceptionv": __ZSt18uncaught_exceptionv, "___syscall54": ___syscall54, "___syscall6": ___syscall6, "___cxa_allocate_exception": ___cxa_allocate_exception, "___assert_fail": ___assert_fail, "___cxa_free_exception": ___cxa_free_exception, "___cxa_find_matching_catch_2": ___cxa_find_matching_catch_2, "___cxa_find_matching_catch_3": ___cxa_find_matching_catch_3, "___buildEnvironment": ___buildEnvironment, "_pthread_cond_broadcast": _pthread_cond_broadcast, "__addDays": __addDays, "_strftime_l": _strftime_l, "___setErrNo": ___setErrNo, "_sbrk": _sbrk, "___cxa_begin_catch": ___cxa_begin_catch, "___cxa_end_catch": ___cxa_end_catch, "___resumeException": ___resumeException, "___cxa_find_matching_catch": ___cxa_find_matching_catch, "_strftime": _strftime, "__arraySum": __arraySum, "___syscall91": ___syscall91, "_pthread_mutex_unlock": _pthread_mutex_unlock, "_pthread_once": _pthread_once, "_pthread_getspecific": _pthread_getspecific, "_getenv": _getenv, "___map_file": ___map_file, "_pthread_key_create": _pthread_key_create, "___unlock": ___unlock, "__isLeapYear": __isLeapYear, "_pthread_setspecific": _pthread_setspecific, "___cxa_atexit": ___cxa_atexit, "___cxa_throw": ___cxa_throw, "___lock": ___lock, "_abort": _abort, "___syscall5": ___syscall5, "___syscall3": ___syscall3, "_pthread_mutex_lock": _pthread_mutex_lock, "_atexit": _atexit, "___syscall140": ___syscall140, "___syscall145": ___syscall145, "___syscall146": ___syscall146, "STACKTOP": STACKTOP, "STACK_MAX": STACK_MAX, "DYNAMICTOP_PTR": DYNAMICTOP_PTR, "ABORT": ABORT, "___dso_handle": ___dso_handle };
+Module.asmLibraryArg = { "abort": abort, "assert": assert, "enlargeMemory": enlargeMemory, "getTotalMemory": getTotalMemory, "abortOnCannotGrowMemory": abortOnCannotGrowMemory, "invoke_diii": invoke_diii, "invoke_fiii": invoke_fiii, "invoke_i": invoke_i, "invoke_ii": invoke_ii, "invoke_iii": invoke_iii, "invoke_iiii": invoke_iiii, "invoke_iiiii": invoke_iiiii, "invoke_iiiiii": invoke_iiiiii, "invoke_iiiiiii": invoke_iiiiiii, "invoke_iiiiiiii": invoke_iiiiiiii, "invoke_iiiiiiiii": invoke_iiiiiiiii, "invoke_iiiiiiiiiii": invoke_iiiiiiiiiii, "invoke_iiiiiiiiiiii": invoke_iiiiiiiiiiii, "invoke_iiiiiiiiiiiii": invoke_iiiiiiiiiiiii, "invoke_jiiii": invoke_jiiii, "invoke_v": invoke_v, "invoke_vi": invoke_vi, "invoke_vii": invoke_vii, "invoke_viii": invoke_viii, "invoke_viiii": invoke_viiii, "invoke_viiiiiii": invoke_viiiiiii, "invoke_viiiiiiiiii": invoke_viiiiiiiiii, "invoke_viiiiiiiiiiiiiii": invoke_viiiiiiiiiiiiiii, "___syscall221": ___syscall221, "_fabs": _fabs, "_pthread_cond_wait": _pthread_cond_wait, "___cxa_rethrow": ___cxa_rethrow, "__ZSt18uncaught_exceptionv": __ZSt18uncaught_exceptionv, "___syscall54": ___syscall54, "___syscall6": ___syscall6, "___cxa_allocate_exception": ___cxa_allocate_exception, "___assert_fail": ___assert_fail, "___cxa_free_exception": ___cxa_free_exception, "___cxa_find_matching_catch_2": ___cxa_find_matching_catch_2, "___cxa_find_matching_catch_3": ___cxa_find_matching_catch_3, "___buildEnvironment": ___buildEnvironment, "_pthread_cond_broadcast": _pthread_cond_broadcast, "__addDays": __addDays, "_strftime_l": _strftime_l, "___setErrNo": ___setErrNo, "_sbrk": _sbrk, "___cxa_begin_catch": ___cxa_begin_catch, "___cxa_end_catch": ___cxa_end_catch, "___resumeException": ___resumeException, "___cxa_find_matching_catch": ___cxa_find_matching_catch, "_strftime": _strftime, "__arraySum": __arraySum, "___syscall91": ___syscall91, "_pthread_mutex_unlock": _pthread_mutex_unlock, "_pthread_once": _pthread_once, "_pthread_getspecific": _pthread_getspecific, "_getenv": _getenv, "___map_file": ___map_file, "_pthread_key_create": _pthread_key_create, "___unlock": ___unlock, "__isLeapYear": __isLeapYear, "_pthread_setspecific": _pthread_setspecific, "___cxa_atexit": ___cxa_atexit, "___cxa_throw": ___cxa_throw, "___lock": ___lock, "_abort": _abort, "___syscall5": ___syscall5, "_pthread_mutex_lock": _pthread_mutex_lock, "_atexit": _atexit, "___syscall140": ___syscall140, "___syscall145": ___syscall145, "___syscall146": ___syscall146, "STACKTOP": STACKTOP, "STACK_MAX": STACK_MAX, "DYNAMICTOP_PTR": DYNAMICTOP_PTR, "ABORT": ABORT, "___dso_handle": ___dso_handle };
 
 var asm = Module['asm'](Module.asmGlobalArg, Module.asmLibraryArg, buffer);
 var real____trunctfdf2 = asm["__trunctfdf2"]; asm["__trunctfdf2"] = function() {
@@ -6459,12 +6448,6 @@ assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it a
 return real__malloc.apply(null, arguments);
 };
 
-var real____cxx_global_var_init_9_18 = asm["__cxx_global_var_init.9.18"]; asm["__cxx_global_var_init.9.18"] = function() {
-assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
-assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
-return real____cxx_global_var_init_9_18.apply(null, arguments);
-};
-
 var real_dynCall_vii = asm["dynCall_vii"]; asm["dynCall_vii"] = function() {
 assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
 assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
@@ -6614,6 +6597,12 @@ assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. w
 assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
 return real____lttf2.apply(null, arguments);
 };
+
+var real____cxx_global_var_init_9_14 = asm["__cxx_global_var_init.9.14"]; asm["__cxx_global_var_init.9.14"] = function() {
+assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+return real____cxx_global_var_init_9_14.apply(null, arguments);
+};
 Module["asm"] = asm;
 var ___trunctfdf2 = Module["___trunctfdf2"] = function() { return Module["asm"]["__trunctfdf2"].apply(null, arguments) };
 var ___extendsftf2 = Module["___extendsftf2"] = function() { return Module["asm"]["__extendsftf2"].apply(null, arguments) };
@@ -6682,7 +6671,6 @@ var __malloc = Module["__malloc"] = function() { return Module["asm"]["_malloc"]
 var ___subtf3 = Module["___subtf3"] = function() { return Module["asm"]["__subtf3"].apply(null, arguments) };
 var dynCall_v = Module["dynCall_v"] = function() { return Module["asm"]["dynCall_v"].apply(null, arguments) };
 var _malloc = Module["_malloc"] = function() { return Module["asm"]["malloc"].apply(null, arguments) };
-var ___cxx_global_var_init_9_18 = Module["___cxx_global_var_init_9_18"] = function() { return Module["asm"]["__cxx_global_var_init.9.18"].apply(null, arguments) };
 var dynCall_vii = Module["dynCall_vii"] = function() { return Module["asm"]["dynCall_vii"].apply(null, arguments) };
 var ___divtf3 = Module["___divtf3"] = function() { return Module["asm"]["__divtf3"].apply(null, arguments) };
 var __GLOBAL__sub_I_alt_bn128_g2_cpp = Module["__GLOBAL__sub_I_alt_bn128_g2_cpp"] = function() { return Module["asm"]["_GLOBAL__sub_I_alt_bn128_g2.cpp"].apply(null, arguments) };
@@ -6708,6 +6696,7 @@ var ___cxx_global_var_init_71 = Module["___cxx_global_var_init_71"] = function()
 var ___cxx_global_var_init_70 = Module["___cxx_global_var_init_70"] = function() { return Module["asm"]["__cxx_global_var_init.70"].apply(null, arguments) };
 var ___cxa_can_catch = Module["___cxa_can_catch"] = function() { return Module["asm"]["__cxa_can_catch"].apply(null, arguments) };
 var ___lttf2 = Module["___lttf2"] = function() { return Module["asm"]["__lttf2"].apply(null, arguments) };
+var ___cxx_global_var_init_9_14 = Module["___cxx_global_var_init_9_14"] = function() { return Module["asm"]["__cxx_global_var_init.9.14"].apply(null, arguments) };
 ;
 
 var stackAlloc = Module['_stackAlloc'];

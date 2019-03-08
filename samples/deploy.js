@@ -12,13 +12,9 @@ const host = "http://localhost:8545"
 const Web3 = require('web3')
 const web3 = new Web3(new Web3.providers.HttpProvider(host))
 
-const merkleRoot = require('./merkleRoot')
+const merkleRoot = require('truebit-util').merkleRoot.web3
 
-const getNetwork = async () => {
-    let id = await web3.eth.net.getId()
-    if (id == 5) return "goerli"
-    else return await web3.eth.net.getNetworkType()
-}
+const getNetwork = require('truebit-util').getNetwork
 
 async function addIPFSFile(tbFileSystem, account, name, buf) {
     let ipfsFile = (await ipfs.files.add([{content: buf, path: name}]))[0]
@@ -34,7 +30,7 @@ async function addIPFSFile(tbFileSystem, account, name, buf) {
     let fileID = await tbFileSystem.methods.calcId(fileNonce).call({from: account})
 
     await tbFileSystem.methods.addIPFSFile(name, size, ipfsHash, mr, fileNonce).send({from: account, gas: 300000})
-    
+
     console.log("Uploaded file", name, "with root", mr)
 
     return fileID
@@ -51,13 +47,9 @@ async function deploy() {
     let size = ipfsFile.size
     let name = ipfsFile.path
 
-    if (ipfsHash == info.ipfsHash) {
-	throw "Wrong IPFS Hashes"
-    }
-
     //Deploy contract with appropriate artifacts
 
-    let networkName = await getNetwork()
+    let networkName = await getNetwork(web3)
 
     let artifacts = JSON.parse(fs.readFileSync('../../truebit-os/wasm-client/' + networkName + '.json'))
 
@@ -103,7 +95,7 @@ async function deploy() {
 
     let tru = new web3.eth.Contract(artifacts.tru.abi, artifacts.tru.address)
 
-    tru.methods.transfer(c.options.address, "100000000000").send({from: accounts[0], gas:200000})
+    tru.methods.transfer(c.options.address, "100000000000000000000").send({from: accounts[0], gas:200000})
 
     artifacts["sample"] = {address: c.options.address, abi: abi}
 
