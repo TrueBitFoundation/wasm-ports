@@ -19,8 +19,8 @@ Fr<ppT> readElem(vector<uint8_t> vec) {
         acc += Fr<ppT>(vec[i]);
     }
 
-    // return acc;
-    return Fr<ppT>::random_element();
+    return acc;
+    // return Fr<ppT>::random_element();
 }
 
 vector<uint8_t> readBytes(istream &is, int num) {
@@ -28,7 +28,7 @@ vector<uint8_t> readBytes(istream &is, int num) {
     v.reserve(num);
     is.read(v.data(), num);
     vector<uint8_t> v2;
-    v2.reserve(num);
+    v2.resize(num);
     for (int i = 0; i < num; i++) {
         v2[i] = (uint8_t)v[i];
     }

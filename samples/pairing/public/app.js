@@ -1,9 +1,7 @@
 const truffleContract = require('truffle-contract')
 
 var listening = false
-
 var hashes = {}
-
 var fileSystem, sampleSubmitter, account
 
 function listenEvents() {
