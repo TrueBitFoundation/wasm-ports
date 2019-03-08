@@ -59,8 +59,9 @@ contract SampleContract {
 
    function formatData(bytes memory data) public pure returns (bytes32[] memory output) {
       //Format data
-      output = new bytes32[](data.length/32+1);
-      for (uint i = 0; i <= data.length/32; i++) {
+      uint sz = (data.length%32 == 0 ? 0 : 1) + data.length/32;
+      output = new bytes32[](sz);
+      for (uint i = 0; i < sz; i++) {
          uint a;
          for (uint j = 0; j < 32; j++) {
             a = a*256;

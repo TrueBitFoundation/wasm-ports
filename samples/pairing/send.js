@@ -30,7 +30,7 @@ async function main() {
 
     console.log("calc root", merkleRoot(web3, dta))
 
-    console.log(await sampleSubmitter.methods.debugData(dta).call({ gas: 2000000, from: account }))
+    // console.log(await sampleSubmitter.methods.debugData(dta).call({ gas: 2000000, from: account }))
     await sampleSubmitter.methods.submitData(dta).send({ gas: 2000000, from: account })
     let solution = "0x0000000000000000000000000000000000000000000000000000000000000000"
     while (solution == "0x0000000000000000000000000000000000000000000000000000000000000000") {
