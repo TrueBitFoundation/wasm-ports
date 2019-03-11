@@ -96,6 +96,14 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
 
 RUN ln -s /emscripten-module-wrapper /root/emscripten-module-wrapper
 
+RUN git clone https://github.com/mrsmkl/truebit-os \
+ && cd truebit-os \
+ && git checkout utils \
+ && npm i --production \
+ && npm run deps \
+ && npm run  compile \
+ && rm -rf ~/.opam
+
 RUN cd wasm-ports/samples/pairing \
  && git pull \
  && source /emsdk/emsdk_env.sh \
@@ -106,14 +114,6 @@ RUN cd wasm-ports/samples/pairing \
  && sh compile.sh \
  && cd ../chess \
  && sh compile.sh
-
-RUN git clone https://github.com/mrsmkl/truebit-os \
- && cd truebit-os \
- && git checkout utils \
- && npm i --production \
- && npm run deps \
- && npm run  compile \
- && rm -rf ~/.opam
 
 RUN git clone https://github.com/TruebitFoundation/jit-runner \
  && cd jit-runner \
@@ -134,7 +134,7 @@ RUN cd wasm-ports/samples/pairing \
  && cd /wasm-ports \
  && ln -s /truebit-os .
 
-RUN cd truebit-os  \
- && git   pull
+RUN cd truebit-os \
+ && git  pull
 
 EXPOSE 4001 30303 80 8545
