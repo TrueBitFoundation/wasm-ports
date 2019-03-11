@@ -3,6 +3,7 @@ pragma solidity ^0.5.0;
 
 interface Filesystem {
 
+   function createFileFromBytes(string calldata name, uint nonce, bytes calldata arr) external returns (bytes32);
    function createFileWithContents(string calldata name, uint nonce, bytes32[] calldata arr, uint sz) external returns (bytes32);
    function getSize(bytes32 id) external view returns (uint);
    function getRoot(bytes32 id) external view returns (bytes32);
@@ -57,32 +58,15 @@ contract SampleContract {
        randomFile = _randomFileId;
    }
 
-   function formatData(bytes memory data) public pure returns (bytes32[] memory output) {
-      //Format data
-      uint sz = (data.length%32 == 0 ? 0 : 1) + data.length/32;
-      output = new bytes32[](sz);
-      for (uint i = 0; i < sz; i++) {
-         uint a;
-         for (uint j = 0; j < 32; j++) {
-            a = a*256;
-            if (i*32+j < data.length) a += uint8(data[i*32+j]);
-         }
-         output[i] = bytes32(a);
-      }
-
-      return output;
-   }
-
    function submitData(bytes memory data) public returns (bytes32) {
       uint num = nonce;
       nonce++;
 
-      bytes32[] memory input = formatData(data);
       emit NewTask(data);
 
       bytes32 bundleID = filesystem.makeBundle(num);
 
-      bytes32 inputFileID = filesystem.createFileWithContents("input.data", num, input, data.length);
+      bytes32 inputFileID = filesystem.createFileFromBytes("input.data", num, data);
       string_to_file[data] = inputFileID;
       filesystem.addToBundle(bundleID, inputFileID);
 
