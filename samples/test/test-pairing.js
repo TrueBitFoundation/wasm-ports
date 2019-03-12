@@ -34,7 +34,7 @@ describe('Truebit Bilinear pairing test', async function() {
 
     })
 
-    let dta = new Buffer("hjkl")
+    let dta = new Buffer("sdlfhsdfuhsdlufhlsdufhlsdufhlsdufhlsdufhlsdufsdlfuh\n")
 
     it('submit test task', async () => {
         await sampleSubmitter.methods.submitData(dta).send({gas: 2000000, from: account})
@@ -45,7 +45,7 @@ describe('Truebit Bilinear pairing test', async function() {
             await sampleSubmitter.methods.getResult(dta).send({from: account})
             solution = await sampleSubmitter.methods.getResult(dta).call()
         }
-        assert.equal(solution, "0x0152fae0b81e20f3e003439e9f2dead8e77e28d59f369ff166f351aacf84ff76")
+        assert.equal(solution, "0x200cfb89ffb121f2ab4135b41053f9bad01dd4bd44c2cffed2457a98c8fb8ef")
     })
 
 })
