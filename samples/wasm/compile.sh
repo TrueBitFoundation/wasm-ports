@@ -9,5 +9,4 @@ node ~/emscripten-module-wrapper/prepare.js wasm_sample.js --run --file input.wa
 cp stuff/globals.wasm ../../../task.wasm
 cp stuff/info.json ../../../
 
-
-
+solc --overwrite --bin --abi --optimize contract.sol -o build
