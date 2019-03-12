@@ -50,7 +50,7 @@ describe('Truebit WebAssembly validation test', async function() {
         let networkName = await getNetwork(web3)
 
         //get scrypt submitter artifact
-	    const artifacts = JSON.parse(fs.readFileSync("public/" + networkName + ".json"))
+	const artifacts = JSON.parse(fs.readFileSync("wasm/public/" + networkName + ".json"))
 
         fileSystem = new web3.eth.Contract(artifacts.fileSystem.abi, artifacts.fileSystem.address)
         sampleSubmitter = new web3.eth.Contract(artifacts.sample.abi, artifacts.sample.address)
@@ -60,7 +60,7 @@ describe('Truebit WebAssembly validation test', async function() {
     let dta
 
     it('upload test file', async () => {
-        dta = await addIPFSFile(fileSystem, account, "input.wasm", fs.readFileSync("input.wasm"))
+        dta = await addIPFSFile(fileSystem, account, "input.wasm", fs.readFileSync("wasm/input.wasm"))
     })
     it('submit test task', async () => {
         await sampleSubmitter.methods.submitData(dta).send({gas: 2000000, from: account})

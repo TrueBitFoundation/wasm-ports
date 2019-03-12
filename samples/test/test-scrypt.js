@@ -27,7 +27,7 @@ describe('Truebit Scrypt test', async function() {
         let networkName = await getNetwork(web3)
 
 	//get scrypt submitter artifact
-	const artifacts = JSON.parse(fs.readFileSync("public/" + networkName + ".json"))
+	const artifacts = JSON.parse(fs.readFileSync("scrypt/public/" + networkName + ".json"))
 
         // fileSystem = new web3.eth.Contract(artifacts.fileSystem.abi, artifacts.fileSystem.address)
         scryptSubmitter = new web3.eth.Contract(artifacts.sample.abi, artifacts.sample.address)
