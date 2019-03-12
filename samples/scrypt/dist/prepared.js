@@ -1853,7 +1853,7 @@ function makeStub(name, func) {
         console.log("HERE!!!")
         foo++
         if (trace_calls) console.log("Calling ", name, arguments)
-        // console.log("Checking", HEAP32[1024/4])
+        console.log("Checking", HEAP32[1024/4])
         // if (recording) startMemoryRecord()
         if (name == "___syscall146") {
             console.log("FD is at", arguments[1])
@@ -1965,6 +1965,7 @@ function saveGlobals() {
     // Why is this needed? for some reason, it is not recorded
     // if (save_stack_top) HEAP32[1024 >> 2] = STACKTOP
     // HEAP32[DYNAMICTOP_PTR>>2] = DYNAMIC_BASE;
+    memory_record.heap32.push([256, HEAP32[1024 >> 2]])
     saved_globals = {
         mem: [].concat.apply([], memory_record.heap32.filter(x => typeof x == "object")),
         env: env_globals,

@@ -1836,13 +1836,16 @@ var no_return = {
     "__unlock": true,
 }
 
+var foo = 0
+
 function makeStub(name, func) {
     console.log("Stub: " + name)
     return function () {
         console.log("HERE!!!")
+        foo++
         if (trace_calls) console.log("Calling ", name, arguments)
-        // console.log("Checking", HEAP32[1024/4])
-        if (recording) startMemoryRecord()
+        console.log("Checking", HEAP32[1024/4])
+        // if (recording) startMemoryRecord()
         if (name == "___syscall146") {
             console.log("FD is at", arguments[1])
             var fd = HEAP32[arguments[1]>>2]
@@ -1850,7 +1853,9 @@ function makeStub(name, func) {
             // var stream = FS.getStream(fd)
             // console.log("stream is at", stream.position)
         }
+        console.log("HERE 2!!!", func)
         var res = func.apply(null, arguments)
+        console.log("HERE 3!!!")
         if (recording_calls) {
             var obj = {result: res, args:Array.from(arguments), name:name, memory:(recording ? memory_record : { heap8: [], heap16: [], heap32 : [] })}
             if (!no_return[name]) obj.result = obj.result || 0
@@ -1869,7 +1874,8 @@ var implemented = {
     "_emscripten_memcpy_big": true,
     "__syscall5": true, // open
     "__syscall54": true, // sysctl
-    "__syscall140": true, // see
+    "__syscall140": false, // seek
+    "__syscall145": false, // readv
     "__syscall6": true, // close
     "__lock": true,
     "__unlock": true,
@@ -1890,7 +1896,6 @@ var implemented = {
     "pthread_cond_broadcast": true,
     "__cxa_atexit": true,
     "__syscall4": true, // write
-    "__syscall145": true, // readv
     "__syscall146": true, // writev
     "__syscall197": true, // fstat64
     "__syscall221": true, // fadvice64
@@ -1911,8 +1916,10 @@ function insertStubs() {
         else {
             if (typeof global_info.env[i] == "function" && !implemented[i] && !implemented[i.substr(1)] && i.substr(0,6) != "invoke") global_info.env[i] = makeStub(i, global_info.env[i])
         }
-        // Find out which of there are globals
     }
+
+    console.log(global_info.env)
+
 
     global_info.env["readBlock"] = function (x) {
         console.log("Reading block not implemented here", x)
@@ -1949,6 +1956,7 @@ function saveGlobals() {
     // Why is this needed? for some reason, it is not recorded
     // if (save_stack_top) HEAP32[1024 >> 2] = STACKTOP
     // HEAP32[DYNAMICTOP_PTR>>2] = DYNAMIC_BASE;
+    memory_record.heap32.push([256, HEAP32[1024 >> 2]])
     saved_globals = {
         mem: [].concat.apply([], memory_record.heap32.filter(x => typeof x == "object")),
         env: env_globals,
@@ -2036,13 +2044,14 @@ function outputCall(call) {
 }
 
 function outputRecord() {
-    console.log("Writing record")
+    console.log("Writing record", foo)
     // u32(calls.length)
     // calls.forEach(outputCall)
     
     // rs.end(function () { console.log("???? what") })
     fs.closeSync(record_file)
     recording_calls = false
+    // console.log(global_info.env["__syscall5"](5, 0))
 
     // fs.writeFileSync(source_dir + "/record.bin", Buffer.from(arr))
     fs.writeFileSync(source_dir + "/globals.json", JSON.stringify(saved_globals))
