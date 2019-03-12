@@ -25,7 +25,10 @@ Fr<ppT> readElem(vector<uint8_t> vec) {
 
 vector<uint8_t> readBytes(istream &is, int num) {
     vector<char> v;
-    v.reserve(num);
+    v.resize(num);
+    for (int i = 0; i < num; i++) {
+        v[i] = 0;
+    }
     is.read(v.data(), num);
     vector<uint8_t> v2;
     v2.resize(num);
