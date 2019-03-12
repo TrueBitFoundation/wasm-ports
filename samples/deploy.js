@@ -69,7 +69,13 @@ async function deploy() {
 
     // await tbFileSystem.methods.makeBundle(bundleNonce).send({from: account, gas: 300000})
 
-    let randomFile = await addIPFSFile(tbFileSystem, account, "_dev_urandom", fs.readFileSync("_dev_urandom"))
+    let randomFile
+    try {
+	 randomFile = await addIPFSFile(tbFileSystem, account, "_dev_urandom", fs.readFileSync("_dev_urandom"))
+    }
+    catch (e) {
+         console.log("Random file does't exist")
+    }
 
     //setup file
     let fileNonce = Math.floor(Math.random()*Math.pow(2, 30))
@@ -85,9 +91,10 @@ async function deploy() {
 	artifacts.incentiveLayer.address,
 	artifacts.tru.address,
 	artifacts.fileSystem.address,
-	codeFileID,
-	randomFile
+	codeFileID
     ]
+
+    if (randomFile) args.push(randomFile)
 
     let contract = new web3.eth.Contract(abi)
 

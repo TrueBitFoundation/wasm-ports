@@ -1725,11 +1725,11 @@ var ASM_CONSTS = [];
 
 STATIC_BASE = GLOBAL_BASE;
 
-STATICTOP = STATIC_BASE + 27104;
+STATICTOP = STATIC_BASE + 26880;
 /* global initializers */  __ATINIT__.push({ func: function() { __GLOBAL__I_000101() } }, { func: function() { __GLOBAL__sub_I_iostream_cpp() } });
 
 
-var STATIC_BUMP = 27104;
+var STATIC_BUMP = 26880;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 
@@ -1865,11 +1865,6 @@ function copyTempDouble(ptr) {
           return ___cxa_find_matching_catch.apply(null, arguments);
         }
 
-
-  function ___cxa_pure_virtual() {
-      ABORT = true;
-      throw 'Pure virtual function called!';
-    }
 
   function ___cxa_rethrow() {
       var ptr = EXCEPTIONS.caught.pop();
@@ -5757,7 +5752,7 @@ function intArrayToString(array) {
 
 Module.asmGlobalArg = {};
 
-Module.asmLibraryArg = { "abort": abort, "assert": assert, "enlargeMemory": enlargeMemory, "getTotalMemory": getTotalMemory, "abortOnCannotGrowMemory": abortOnCannotGrowMemory, "invoke_diii": invoke_diii, "invoke_fiii": invoke_fiii, "invoke_i": invoke_i, "invoke_ii": invoke_ii, "invoke_iii": invoke_iii, "invoke_iiii": invoke_iiii, "invoke_iiiii": invoke_iiiii, "invoke_iiiiii": invoke_iiiiii, "invoke_iiiiiii": invoke_iiiiiii, "invoke_iiiiiiii": invoke_iiiiiiii, "invoke_iiiiiiiii": invoke_iiiiiiiii, "invoke_iiiiiiiiiii": invoke_iiiiiiiiiii, "invoke_iiiiiiiiiiii": invoke_iiiiiiiiiiii, "invoke_iiiiiiiiiiiii": invoke_iiiiiiiiiiiii, "invoke_jiiii": invoke_jiiii, "invoke_v": invoke_v, "invoke_vi": invoke_vi, "invoke_vii": invoke_vii, "invoke_viii": invoke_viii, "invoke_viiii": invoke_viiii, "invoke_viiiiiii": invoke_viiiiiii, "invoke_viiiiiiiiii": invoke_viiiiiiiiii, "invoke_viiiiiiiiiiiiiii": invoke_viiiiiiiiiiiiiii, "___syscall221": ___syscall221, "_fabs": _fabs, "_pthread_cond_wait": _pthread_cond_wait, "___cxa_rethrow": ___cxa_rethrow, "__ZSt18uncaught_exceptionv": __ZSt18uncaught_exceptionv, "___syscall54": ___syscall54, "___syscall6": ___syscall6, "___cxa_allocate_exception": ___cxa_allocate_exception, "___assert_fail": ___assert_fail, "___cxa_free_exception": ___cxa_free_exception, "___cxa_find_matching_catch_2": ___cxa_find_matching_catch_2, "___cxa_find_matching_catch_3": ___cxa_find_matching_catch_3, "___buildEnvironment": ___buildEnvironment, "_pthread_cond_broadcast": _pthread_cond_broadcast, "__addDays": __addDays, "_strftime_l": _strftime_l, "___setErrNo": ___setErrNo, "_sbrk": _sbrk, "___cxa_begin_catch": ___cxa_begin_catch, "___cxa_end_catch": ___cxa_end_catch, "___resumeException": ___resumeException, "___cxa_find_matching_catch": ___cxa_find_matching_catch, "_strftime": _strftime, "__arraySum": __arraySum, "___syscall91": ___syscall91, "_pthread_mutex_unlock": _pthread_mutex_unlock, "_pthread_once": _pthread_once, "_pthread_getspecific": _pthread_getspecific, "_getenv": _getenv, "___map_file": ___map_file, "_pthread_key_create": _pthread_key_create, "___unlock": ___unlock, "__isLeapYear": __isLeapYear, "_pthread_setspecific": _pthread_setspecific, "___cxa_atexit": ___cxa_atexit, "___cxa_throw": ___cxa_throw, "___lock": ___lock, "_abort": _abort, "___syscall5": ___syscall5, "___cxa_pure_virtual": ___cxa_pure_virtual, "_pthread_mutex_lock": _pthread_mutex_lock, "_atexit": _atexit, "___syscall140": ___syscall140, "___syscall145": ___syscall145, "___syscall146": ___syscall146, "STACKTOP": STACKTOP, "STACK_MAX": STACK_MAX, "DYNAMICTOP_PTR": DYNAMICTOP_PTR, "ABORT": ABORT, "___dso_handle": ___dso_handle };
+Module.asmLibraryArg = { "abort": abort, "assert": assert, "enlargeMemory": enlargeMemory, "getTotalMemory": getTotalMemory, "abortOnCannotGrowMemory": abortOnCannotGrowMemory, "invoke_diii": invoke_diii, "invoke_fiii": invoke_fiii, "invoke_i": invoke_i, "invoke_ii": invoke_ii, "invoke_iii": invoke_iii, "invoke_iiii": invoke_iiii, "invoke_iiiii": invoke_iiiii, "invoke_iiiiii": invoke_iiiiii, "invoke_iiiiiii": invoke_iiiiiii, "invoke_iiiiiiii": invoke_iiiiiiii, "invoke_iiiiiiiii": invoke_iiiiiiiii, "invoke_iiiiiiiiiii": invoke_iiiiiiiiiii, "invoke_iiiiiiiiiiii": invoke_iiiiiiiiiiii, "invoke_iiiiiiiiiiiii": invoke_iiiiiiiiiiiii, "invoke_jiiii": invoke_jiiii, "invoke_v": invoke_v, "invoke_vi": invoke_vi, "invoke_vii": invoke_vii, "invoke_viii": invoke_viii, "invoke_viiii": invoke_viiii, "invoke_viiiiiii": invoke_viiiiiii, "invoke_viiiiiiiiii": invoke_viiiiiiiiii, "invoke_viiiiiiiiiiiiiii": invoke_viiiiiiiiiiiiiii, "___syscall221": ___syscall221, "_fabs": _fabs, "_pthread_cond_wait": _pthread_cond_wait, "___cxa_rethrow": ___cxa_rethrow, "__ZSt18uncaught_exceptionv": __ZSt18uncaught_exceptionv, "___syscall54": ___syscall54, "___syscall6": ___syscall6, "___cxa_allocate_exception": ___cxa_allocate_exception, "___assert_fail": ___assert_fail, "___cxa_free_exception": ___cxa_free_exception, "___cxa_find_matching_catch_2": ___cxa_find_matching_catch_2, "___cxa_find_matching_catch_3": ___cxa_find_matching_catch_3, "___buildEnvironment": ___buildEnvironment, "_pthread_cond_broadcast": _pthread_cond_broadcast, "__addDays": __addDays, "_strftime_l": _strftime_l, "___setErrNo": ___setErrNo, "_sbrk": _sbrk, "___cxa_begin_catch": ___cxa_begin_catch, "___cxa_end_catch": ___cxa_end_catch, "___resumeException": ___resumeException, "___cxa_find_matching_catch": ___cxa_find_matching_catch, "_strftime": _strftime, "__arraySum": __arraySum, "___syscall91": ___syscall91, "_pthread_mutex_unlock": _pthread_mutex_unlock, "_pthread_once": _pthread_once, "_pthread_getspecific": _pthread_getspecific, "_getenv": _getenv, "___map_file": ___map_file, "_pthread_key_create": _pthread_key_create, "___unlock": ___unlock, "__isLeapYear": __isLeapYear, "_pthread_setspecific": _pthread_setspecific, "___cxa_atexit": ___cxa_atexit, "___cxa_throw": ___cxa_throw, "___lock": ___lock, "_abort": _abort, "___syscall5": ___syscall5, "_pthread_mutex_lock": _pthread_mutex_lock, "_atexit": _atexit, "___syscall140": ___syscall140, "___syscall145": ___syscall145, "___syscall146": ___syscall146, "STACKTOP": STACKTOP, "STACK_MAX": STACK_MAX, "DYNAMICTOP_PTR": DYNAMICTOP_PTR, "ABORT": ABORT, "___dso_handle": ___dso_handle };
 
 var asm = Module['asm'](Module.asmGlobalArg, Module.asmLibraryArg, buffer);
 var real___fflush = asm["_fflush"]; asm["_fflush"] = function() {
