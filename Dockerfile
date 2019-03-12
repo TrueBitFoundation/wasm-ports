@@ -75,11 +75,18 @@ RUN cd bin \
  && mv solc-static-linux solc \
  && chmod 744 solc
 
+RUN git clone https://github.com/TruebitFoundation/jit-runner \
+ && cd jit-runner \
+ && git checkout v2 \
+ && npm i
+
 RUN git clone https://github.com/TrueBitFoundation/emscripten-module-wrapper \
  && source /emsdk/emsdk_env.sh \
  && cd emscripten-module-wrapper \
  && git checkout v2 \
- && npm install
+ && npm install \
+ && ln -s /emscripten-module-wrapper /root/emscripten-module-wrapper
+
 
 RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && source /emsdk/emsdk_env.sh \
@@ -93,8 +100,6 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
  && sh libff.sh \
  && sh boost.sh \
  && sh libpbc.sh
-
-RUN ln -s /emscripten-module-wrapper /root/emscripten-module-wrapper
 
 RUN git clone https://github.com/mrsmkl/truebit-os \
  && cd truebit-os \
@@ -115,26 +120,10 @@ RUN cd wasm-ports/samples/pairing \
  && cd ../chess \
  && sh compile.sh
 
-RUN git clone https://github.com/TruebitFoundation/jit-runner \
- && cd jit-runner \
- && git checkout v2 \
- && npm i
-
-RUN git clone https://github.com/mrsmkl/example-app \
- && cd example-app \
- && git checkout v2 \
- && npm i \
- && ln -s /truebit-os . \
- && ln -s /example-app/public /var/www/html/app \
- && browserify public/js/app.js -o public/js/bundle.js
-
 RUN cd wasm-ports/samples/pairing \
- && git pull \
+ && git  pull \
  && npm i \
  && cd /wasm-ports \
  && ln -s /truebit-os .
-
-RUN cd truebit-os \
- && git  pull
 
 EXPOSE 4001 30303 80 8545
