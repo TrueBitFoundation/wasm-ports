@@ -45,7 +45,7 @@ describe('Truebit Bilinear pairing test', async function() {
             await sampleSubmitter.methods.getResult(dta).send({from: account})
             solution = await sampleSubmitter.methods.getResult(dta).call()
         }
-        assert.equal(solution, "0x200cfb89ffb121f2ab4135b41053f9bad01dd4bd44c2cffed2457a98c8fb8ef")
+        assert.equal(solution, "0x0200cfb89ffb121f2ab4135b41053f9bad01dd4bd44c2cffed2457a98c8fb8ef")
     })
 
 })
