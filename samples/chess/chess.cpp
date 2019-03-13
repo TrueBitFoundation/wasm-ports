@@ -103,7 +103,7 @@ bool checkWhiteMove(string &state, int x1, int y1, int x2, int y2) {
         if (y1 != y2+1) return false;
      }
   }
-  if (!checkPieceMove(state, x1, y1, x2, y2, tolower(piece))) {
+  else if (!checkPieceMove(state, x1, y1, x2, y2, tolower(piece))) {
      // cout << "invalid move for piece " << piece << endl;
      return false;
   }
@@ -133,7 +133,7 @@ bool checkBlackMove(string &state, int x1, int y1, int x2, int y2) {
         if (y1+1 != y2) return false;
      }
   }
-  if (!checkPieceMove(state, x1, y1, x2, y2, tolower(piece))) {
+  else if (!checkPieceMove(state, x1, y1, x2, y2, tolower(piece))) {
      // cout << "Invalid move for piece " << piece << endl;
      return false;
   }
@@ -213,7 +213,17 @@ int main(int argc, char **argv) {
   std::stringstream buffer;
   buffer << t.rdbuf();
 
-  cout << buffer.str() << endl;
+  cout << "Locations on board: " << endl;
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      char chr = (char)(i*8 + j + 64);
+      if (chr >= 127) chr -= 64;
+      cout << chr;
+    }
+    cout << endl;
+  }
+
+  cout << "Reading moves, each move has the start and end position of the moved piece " << buffer.str() << endl;
   string state("rhbqkbhrssssssss                                SSSSSSSSRHBQKBHR");
   cout << state << ":" << state.length() << endl;
 
