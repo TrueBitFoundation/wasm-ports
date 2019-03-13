@@ -111,7 +111,7 @@ RUN git clone https://github.com/mrsmkl/truebit-os \
 
 RUN cd wasm-ports/samples/pairing \
  && git pull \
- && source /emsdk/emsdk_env.sh \
+ && source  /emsdk/emsdk_env.sh \
  && ( ipfs daemon & ) \
  && export EMCC_WASM_BACKEND=1 \
  && sh compile.sh \

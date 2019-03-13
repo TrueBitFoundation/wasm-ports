@@ -78,6 +78,7 @@ bool checkPieceMove(string &state, int x1, int y1, int x2, int y2, char piece) {
   else if (piece == 'b') return validBishop(state, x1, y1, x2, y2);
   else if (piece == 'q') return validQueen(state, x1, y1, x2, y2);
   else if (piece == 'k') return validBishop(state, x1, y1, x2, y2);
+  return false;
 }
 
 bool checkWhiteMove(string &state, int x1, int y1, int x2, int y2) {
@@ -275,6 +276,7 @@ int main(int argc, char **argv) {
       result(i/2, "Stalemate, no moves");
     }
   }
+  result(moves.length()/2, "No more moves");
   return 0;
 }
 
