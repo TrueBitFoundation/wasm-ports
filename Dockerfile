@@ -103,7 +103,7 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
 
 RUN git clone https://github.com/mrsmkl/truebit-os \
  && cd truebit-os \
- && git checkout utils \
+ && git checkout timeout-fixes \
  && npm i --production \
  && npm run deps \
  && npm run  compile \
@@ -125,5 +125,11 @@ RUN cd wasm-ports/samples/pairing \
  && npm i \
  && cd /wasm-ports \
  && ln -s /truebit-os .
+
+RUN cd wasm-ports/samples/pairing \
+ && git pull
+
+RUN cd truebit-os \
+ && git  pull
 
 EXPOSE 4001 30303 80 8545
