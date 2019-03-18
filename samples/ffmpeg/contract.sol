@@ -73,8 +73,8 @@ contract SampleContract {
  
       tru.approve(address(truebit), 6 ether);
       truebit.makeDeposit(6 ether);
-      bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, 25, 8, 20, 10, 0);
-      truebit.requireFile(task, filesystem.hashName("output.data"), 1);
+      bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, 21, 8, 20, 10, 0);
+      truebit.requireFile(task, filesystem.hashName("output.data"), 0);
       truebit.commitRequiredFiles(task);
       task_to_file[task] = dataFile;
       return filesystem.getInitHash(bundleID);

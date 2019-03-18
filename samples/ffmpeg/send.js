@@ -44,10 +44,10 @@ async function main() {
 
     fileSystem = new web3.eth.Contract(artifacts.fileSystem.abi, artifacts.fileSystem.address)
     sampleSubmitter = new web3.eth.Contract(artifacts.sample.abi, artifacts.sample.address)
-    let fname = process.argv[2] || "input.wasm"
-    console.log("validating wasm file", fname)
+    let fname = process.argv[2] || "input.ts"
+    console.log("validating video clip", fname)
 
-    let wasmFile = await addIPFSFile(fileSystem, account, "input.wasm", fs.readFileSync(fname))
+    let wasmFile = await addIPFSFile(fileSystem, account, "input.ts", fs.readFileSync(fname))
 
     await sampleSubmitter.methods.submitData(wasmFile).send({ gas: 2000000, from: account })
     let solution = "0x0000000000000000000000000000000000000000000000000000000000000000"
@@ -56,10 +56,6 @@ async function main() {
         solution = await sampleSubmitter.methods.getResult(wasmFile).call()
     }
     console.log("Got solution", solution)
-
-    let hash = await fileSystem.methods.getHash(solution).call()
-
-    console.log("IPFS hash should be", hash)
 }
 
 main()
