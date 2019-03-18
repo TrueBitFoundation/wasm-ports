@@ -3,7 +3,6 @@ pragma solidity ^0.5.0;
 
 interface Filesystem {
 
-   function createFileFromBytes(string calldata name, uint nonce, bytes calldata arr) external returns (bytes32);
    function createFileWithContents(string calldata name, uint nonce, bytes32[] calldata arr, uint sz) external returns (bytes32);
    function getSize(bytes32 id) external view returns (uint);
    function getRoot(bytes32 id) external view returns (bytes32);
@@ -35,8 +34,10 @@ interface TRU {
 
 contract SampleContract {
 
-   event NewTask(bytes data);
-   event FinishedTask(bytes data, bytes32[] result);
+   event GotFiles(bytes32[] files);
+   event Consuming(bytes32[] arr);
+   
+   event InputData(bytes32 data);
 
    uint nonce;
    TrueBit truebit;
@@ -44,59 +45,48 @@ contract SampleContract {
    TRU tru;
 
    bytes32 codeFileID;
-   bytes32 randomFile;
 
-   mapping (bytes => bytes32) string_to_file; 
-   mapping (bytes32 => bytes) task_to_string;
-   mapping (bytes => bytes32[]) result;
+   mapping (bytes32 => bytes32) task_to_file;
+   mapping (bytes32 => bytes32) result;
 
-   constructor(address tb, address tru_, address fs, bytes32 _codeFileID, bytes32 _randomFileId) public {
+   constructor(address tb, address tru_, address fs, bytes32 _codeFileID) public {
        truebit = TrueBit(tb);
        tru = TRU(tru_);
        filesystem = Filesystem(fs);
        codeFileID = _codeFileID;
-       randomFile = _randomFileId;
    }
 
-   function submitData(bytes memory data) public returns (bytes32) {
+   function submitData(bytes32 dataFile) public returns (bytes32) {
       uint num = nonce;
       nonce++;
 
-      emit NewTask(data);
+      emit InputData(dataFile);
 
       bytes32 bundleID = filesystem.makeBundle(num);
 
-      bytes32 inputFileID = filesystem.createFileFromBytes("input.data", num, data);
-      string_to_file[data] = inputFileID;
-      filesystem.addToBundle(bundleID, inputFileID);
-
-      filesystem.addToBundle(bundleID, randomFile);
+      filesystem.addToBundle(bundleID, dataFile);
 
       bytes32[] memory empty = new bytes32[](0);
       filesystem.addToBundle(bundleID, filesystem.createFileWithContents("output.data", num+1000000000, empty, 0));
-      
+
       filesystem.finalizeBundle(bundleID, codeFileID);
  
       tru.approve(address(truebit), 6 ether);
       truebit.makeDeposit(6 ether);
       bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, 25, 8, 20, 10, 0);
-      truebit.requireFile(task, filesystem.hashName("output.data"), 0);
+      truebit.requireFile(task, filesystem.hashName("output.data"), 1);
       truebit.commitRequiredFiles(task);
-      task_to_string[task] = data;
+      task_to_file[task] = dataFile;
       return filesystem.getInitHash(bundleID);
    }
 
-   function debugData(bytes memory data) public returns (bytes32, bytes32, bytes32, bytes32, bytes32) {
+   function debugData(bytes32 dataFile) public returns (bytes32, bytes32, bytes32, bytes32, bytes32) {
       uint num = nonce;
       nonce++;
 
       bytes32 bundleID = filesystem.makeBundle(num);
 
-      bytes32 inputFileID = filesystem.createFileFromBytes("input.data", num, data);
-      string_to_file[data] = inputFileID;
-      filesystem.addToBundle(bundleID, inputFileID);
-
-      filesystem.addToBundle(bundleID, randomFile);
+      filesystem.addToBundle(bundleID, dataFile);
 
       bytes32[] memory empty = new bytes32[](0);
       filesystem.addToBundle(bundleID, filesystem.createFileWithContents("output.data", num+1000000000, empty, 0));
@@ -105,18 +95,21 @@ contract SampleContract {
  
    }
 
+   bytes32 remember_task;
+
    // this is the callback name
    function solved(bytes32 id, bytes32[] memory files) public {
       // could check the task id
       require(TrueBit(msg.sender) == truebit);
+      emit GotFiles(files);
       bytes32[] memory arr = filesystem.getData(files[0]);
-      result[task_to_string[id]] = arr;
-      emit FinishedTask(task_to_string[id], arr);
+      result[task_to_file[id]] = arr[0];
    }
 
    // need some way to get next state, perhaps shoud give all files as args
-   function getResult(bytes memory data) public view returns (bytes32[] memory) {
-      return result[data];
+   function getResult(bytes32 dataFile) public view returns (bytes32) {
+      return result[dataFile];
    }
 
 }
+
