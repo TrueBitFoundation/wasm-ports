@@ -50,12 +50,17 @@ contract SampleContract {
    mapping (bytes32 => bytes) task_to_string;
    mapping (bytes => bytes32) result;
 
-   constructor(address tb, address tru_, address fs, bytes32 _codeFileID, bytes32 _randomFileId) public {
+   uint8 memsize;
+   uint32 gas;
+
+   constructor(address tb, address tru_, address fs, bytes32 _codeFileID, uint8 _memsize, uint32 _gas, bytes32 _randomFileId) public {
        truebit = TrueBit(tb);
        tru = TRU(tru_);
        filesystem = Filesystem(fs);
        codeFileID = _codeFileID;
        randomFile = _randomFileId;
+       memsize = _memsize;
+       gas = _gas;
    }
 
    function submitData(bytes memory data) public returns (bytes32) {
@@ -74,71 +79,26 @@ contract SampleContract {
 
       bytes32[] memory empty = new bytes32[](0);
       filesystem.addToBundle(bundleID, filesystem.createFileWithContents("output.data", num+1000000000, empty, 0));
-      
+
       filesystem.finalizeBundle(bundleID, codeFileID);
  
       tru.approve(address(truebit), 6 ether);
       truebit.makeDeposit(6 ether);
 
-      bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, 25, 8, 20, 10, 0);
+      bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, memsize, 8, 20, 10, gas);
       truebit.requireFile(task, filesystem.hashName("output.data"), 0);
       truebit.commitRequiredFiles(task);
       task_to_string[task] = data;
       return filesystem.getInitHash(bundleID);
    }
 
-/*
-    function calc_depth(uint x) internal pure returns (uint) {
-        if (x <= 1) return 0;
-        else return 1 + calc_depth(x / 2);
-   }
-
-   function debugData(bytes memory data) public returns (bytes32, uint, bytes32, bytes32[] memory) {
-      uint num = nonce;
-      nonce++;
-
-      bytes32[] memory input = formatData(data);
-
-      bytes32 inputFileID = filesystem.createFileWithContents("input.data", num, input, data.length);
-      return (filesystem.getRoot(inputFileID), calc_depth(input.length*2-1), fileMerkle(input, 0, 3), input);
-   }
-
-    function fileMerkle(bytes32[] memory arr, uint idx, uint level) internal returns (bytes32) {
-	if (level == 0) return idx < arr.length ? keccak256(abi.encodePacked(arr[idx])) : keccak256(abi.encodePacked(bytes16(0), bytes16(0)));
-	else return keccak256(abi.encodePacked(fileMerkle(arr, idx, level-1), fileMerkle(arr, idx+(2**(level-1)), level-1)));
-    }
-
-   function debugData2(bytes memory data) public returns (bytes32, bytes32, bytes32, bytes32, bytes32) {
-      uint num = nonce;
-      nonce++;
-
-      bytes32[] memory input = formatData(data);
-
-      bytes32 bundleID = filesystem.makeBundle(num);
-
-      bytes32 inputFileID = filesystem.createFileWithContents("input.data", num, input, data.length);
-      string_to_file[data] = inputFileID;
-      filesystem.addToBundle(bundleID, inputFileID);
-
-      filesystem.addToBundle(bundleID, randomFile);
-
-      bytes32[] memory empty = new bytes32[](0);
-      filesystem.addToBundle(bundleID, filesystem.createFileWithContents("output.data", num+1000000000, empty, 0));
-      
-      return filesystem.debugFinalizeBundle(bundleID, codeFileID);
- 
-   }*/
-
-   bytes32 remember_task;
-
    // this is the callback name
    function solved(bytes32 id, bytes32[] memory files) public {
       // could check the task id
       require(TrueBit(msg.sender) == truebit);
-      remember_task = id;
       bytes32[] memory arr = filesystem.getData(files[0]);
-      result[task_to_string[remember_task]] = arr[0];
-      emit FinishedTask(task_to_string[remember_task], arr[0]);
+      result[task_to_string[id]] = arr[0];
+      emit FinishedTask(task_to_string[id], arr[0]);
    }
 
    // need some way to get next state, perhaps shoud give all files as args

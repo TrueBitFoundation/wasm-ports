@@ -47,11 +47,16 @@ contract SampleContract {
    mapping (bytes32 => bytes) task_to_string;
    mapping (bytes => bytes32) result;
 
-   constructor(address tb, address tru_, address fs, bytes32 _codeFileID) public {
+   uint8 memsize;
+   uint32 gas;
+
+   constructor(address tb, address tru_, address fs, bytes32 _codeFileID, uint8 _memsize, uint32 _gas) public {
        truebit = TrueBit(tb);
        tru = TRU(tru_);
        filesystem = Filesystem(fs);
        codeFileID = _codeFileID;
+       memsize = _memsize;
+       gas = _gas;
    }
 
    function submitData(bytes memory data) public returns (bytes32) {
@@ -73,23 +78,20 @@ contract SampleContract {
 
       tru.approve(address(truebit), 6 ether);
       truebit.makeDeposit(6 ether);
-      bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, 20, 8, 20, 10, 5000);
+      bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, memsize, 8, 20, 10, gas);
       truebit.requireFile(task, filesystem.hashName("output.data"), 0);
       truebit.commitRequiredFiles(task);
       task_to_string[task] = data;
       return filesystem.getInitHash(bundleID);
    }
 
-   bytes32 remember_task;
-
    // this is the callback name
    function solved(bytes32 id, bytes32[] memory files) public {
       // could check the task id
       require(TrueBit(msg.sender) == truebit);
-      remember_task = id;
       bytes32[] memory arr = filesystem.getData(files[0]);
-      result[task_to_string[remember_task]] = arr[0];
-      emit FinishedTask(task_to_string[remember_task], arr[0]);
+      result[task_to_string[id]] = arr[0];
+      emit FinishedTask(task_to_string[id], arr[0]);
    }
 
    // need some way to get next state, perhaps shoud give all files as args

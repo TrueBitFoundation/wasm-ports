@@ -24,7 +24,8 @@ async function main() {
 
     // fileSystem = new web3.eth.Contract(artifacts.fileSystem.abi, artifacts.fileSystem.address)
     sampleSubmitter = new web3.eth.Contract(artifacts.sample.abi, artifacts.sample.address)
-    let str = process.argv[2] || "hjkl"
+    let str = process.argv[2] || "hjklwoeijdwoeijdowiejdowiejdoiwjeodiwjoeidjwoeidjwoeijd"
+    if (str.length < 32) console.log("Warning! The input should be more than 32 characters")
     console.log("computing bilinear pairing for", str)
     let dta = new Buffer(str)
 

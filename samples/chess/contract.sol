@@ -50,12 +50,17 @@ contract SampleContract {
    mapping (bytes32 => bytes) task_to_string;
    mapping (bytes => bytes32[]) result;
 
-   constructor(address tb, address tru_, address fs, bytes32 _codeFileID, bytes32 _randomFileId) public {
+   uint8 memsize;
+   uint32 gas;
+
+   constructor(address tb, address tru_, address fs, bytes32 _codeFileID, uint8 _memsize, uint32 _gas, bytes32 _randomFileId) public {
        truebit = TrueBit(tb);
        tru = TRU(tru_);
        filesystem = Filesystem(fs);
        codeFileID = _codeFileID;
        randomFile = _randomFileId;
+       memsize = _memsize;
+       gas = _gas;
    }
 
    function submitData(bytes memory data) public returns (bytes32) {
@@ -79,7 +84,7 @@ contract SampleContract {
  
       tru.approve(address(truebit), 6 ether);
       truebit.makeDeposit(6 ether);
-      bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, 25, 8, 20, 10, 0);
+      bytes32 task = truebit.createTaskWithParams(filesystem.getInitHash(bundleID), 1, bundleID, 1, 1 ether, 20, memsize, 8, 20, 10, gas);
       truebit.requireFile(task, filesystem.hashName("output.data"), 0);
       truebit.commitRequiredFiles(task);
       task_to_string[task] = data;
