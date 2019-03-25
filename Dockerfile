@@ -77,7 +77,7 @@ RUN cd bin \
 
 RUN git clone https://github.com/TruebitFoundation/jit-runner \
  && cd jit-runner \
- && git checkout v2 \
+ && git  checkout v2 \
  && npm i
 
 RUN git clone https://github.com/TrueBitFoundation/emscripten-module-wrapper \
@@ -103,7 +103,7 @@ RUN git clone https://github.com/TrueBitFoundation/wasm-ports \
 
 RUN git clone https://github.com/mrsmkl/truebit-os \
  && cd truebit-os \
- && git checkout timeout-fixes \
+ && git checkout meter_fix \
  && npm i --production \
  && npm run deps \
  && npm run  compile \
@@ -120,7 +120,13 @@ RUN cd wasm-ports/samples/pairing \
  && cd ../chess \
  && sh compile.sh
 
-RUN cd wasm-ports/samples/pairing \
+RUN cd wasm-ports/samples/ffmpeg \
+ && git pull \
+ && source  /emsdk/emsdk_env.sh \
+ && ( ipfs daemon & ) \
+ && sh compile.sh
+
+RUN cd wasm-ports/samples \
  && git  pull \
  && npm i \
  && cd /wasm-ports \
