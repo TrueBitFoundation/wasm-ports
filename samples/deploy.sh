@@ -8,5 +8,6 @@ cd ../chess
 node ../deploy.js
 cd ../wasm
 node ../deploy.js
+cd ../ffmpeg
+node ../deploy.js
 cd ..
-
