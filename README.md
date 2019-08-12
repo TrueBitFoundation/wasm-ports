@@ -6,7 +6,7 @@ compile C/C++ programs into Truebit tasks (Truebit toolchain)
 2. the Scripts to install libraries compiled to WASM using emscripten
 3. Sample applications
 
-See samples, especially [scrypt](samples/scrypt)
+See the samples, especially [scrypt](samples/scrypt) for instructions.
 
 ## Issues with compiling using emscripten
 
