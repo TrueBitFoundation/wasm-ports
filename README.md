@@ -6,7 +6,9 @@ compile C/C++ programs into Truebit tasks (Truebit toolchain)
 2. the Scripts to install libraries compiled to WASM using emscripten
 3. Sample applications
 
-See the samples, especially [scrypt](samples/scrypt) for instructions.
+Check [here](https://github.com/TrueBitFoundation/truebit-os#compiling-and-running-truebit-tasks)
+for instructions about how to use the docker image.
+See the samples, especially [scrypt](samples/scrypt) for more instructions.
 
 ## Issues with compiling using emscripten
 
