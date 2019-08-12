@@ -19,16 +19,19 @@ Fr<ppT> readElem(vector<uint8_t> vec) {
         acc += Fr<ppT>(vec[i]);
     }
 
-    // return acc;
-    return Fr<ppT>::random_element();
+    return acc;
+    // return Fr<ppT>::random_element();
 }
 
 vector<uint8_t> readBytes(istream &is, int num) {
     vector<char> v;
-    v.reserve(num);
+    v.resize(num);
+    for (int i = 0; i < num; i++) {
+        v[i] = 0;
+    }
     is.read(v.data(), num);
     vector<uint8_t> v2;
-    v2.reserve(num);
+    v2.resize(num);
     for (int i = 0; i < num; i++) {
         v2[i] = (uint8_t)v[i];
     }
@@ -47,6 +50,8 @@ int main(int argc, char **argv) {
     vector<uint8_t> v1 = readBytes(file, 32);
     vector<uint8_t> v2 = readBytes(file, 32);
     alt_bn128_pp::init_public_params();
+    cout << "V1 " << v1 << endl;
+    cout << "V2 " << v2 << endl;
     G1<alt_bn128_pp> P = readElem<alt_bn128_pp>(v1) * G1<alt_bn128_pp>::one();
     G2<alt_bn128_pp> Q = readElem<alt_bn128_pp>(v2) * G2<alt_bn128_pp>::one();
     P.print();
