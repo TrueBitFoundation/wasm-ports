@@ -16,6 +16,10 @@
 < AR=ar
 ---
 > AR=emar
+46c49
+< DEF_PREFIX=/home/sme001/opt
+---
+> DEF_PREFIX=$(HOME)/opt
 120c123
 < WIZARD=on
 ---
@@ -33,10 +37,9 @@
 ---
 > #	sh MakeGetTime "$(LINK)" "$(LDLIBS)"
 > 	sh MakeGetTime "g++ $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS)" "$(LDLIBS)"
-333c339,342
+333c339,341
 < 	$(LINK) $(GMP_OPT_INCDIR) -o gen_gmp_aux gen_gmp_aux.cpp $(GMP_OPT_LIBDIR) $(GMP_OPT_LIB) $(LDLIBS)
 ---
 > #	$(LINK) $(GMP_OPT_INCDIR) -o gen_gmp_aux gen_gmp_aux.cpp $(GMP_OPT_LIBDIR) $(GMP_OPT_LIB) $(LDLIBS)
-> #	g++ $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -I/home/sme001/opt/include -o gen_lip_gmp_aux gen_lip_gmp_aux.cpp -L/home/sme001/opt/lib $(GMP_OPT_LIB) $(LDLIBS)
 > #	./gen_lip_gmp_aux > lip_gmp_aux_impl.h
-> 	$(CXXCC) $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -I/home/sme001/opt/include  -o gen_gmp_aux gen_gmp_aux.cpp -L/usr/lib/x86_64-linux-gnu/ $(GMP_OPT_LIB) $(LDLIBS)
+> 	$(CXXCC) $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -I$(HOME)/opt/include  -o gen_gmp_aux gen_gmp_aux.cpp -L/usr/lib/x86_64-linux-gnu/ $(GMP_OPT_LIB) $(LDLIBS)
