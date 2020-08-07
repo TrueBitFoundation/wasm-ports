@@ -1,0 +1,42 @@
+10c10,12
+< CXX=g++
+---
+> CXX=em++
+> CXXCC=g++
+> GMPTARGET=$(HOME)/opt
+14c16
+< CXXFLAGS=-g -O2
+---
+> CXXFLAGS=-g -O2 
+18a21,22
+> NTL_LONG_LONG_TYPE = unsigned long long
+> NTL_ULONG_TO_LONG = unsigned long long
+20,21c24
+< 
+< AR=ar
+---
+> AR=emar
+120c123
+< WIZARD=on
+---
+> WIZARD=off
+309,310c312,315
+< 	$(COMPILE) MakeDescAux.cpp
+< 	$(LINK) -o MakeDesc MakeDesc.cpp MakeDescAux.o $(LDLIBS)
+---
+> #	$(COMPILE) MakeDescAux.cpp
+> #	$(LINK) -o MakeDesc MakeDesc.cpp MakeDescAux.o $(LDLIBS)
+> 	$(CXCC) $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) -c MakeDescAux.cpp
+> 	$(CXCC) $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o MakeDesc MakeDesc.cpp MakeDescAux.o $(LDLIBS)
+319c324,325
+< 	sh MakeGetTime "$(LINK)" "$(LDLIBS)"
+---
+> #	sh MakeGetTime "$(LINK)" "$(LDLIBS)"
+> 	sh MakeGetTime "g++ $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS)" "$(LDLIBS)"
+333c339,342
+< 	$(LINK) $(GMP_OPT_INCDIR) -o gen_gmp_aux gen_gmp_aux.cpp $(GMP_OPT_LIBDIR) $(GMP_OPT_LIB) $(LDLIBS)
+---
+> #	$(LINK) $(GMP_OPT_INCDIR) -o gen_gmp_aux gen_gmp_aux.cpp $(GMP_OPT_LIBDIR) $(GMP_OPT_LIB) $(LDLIBS)
+> #	g++ $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -I/home/sme001/opt/include -o gen_lip_gmp_aux gen_lip_gmp_aux.cpp -L/home/sme001/opt/lib $(GMP_OPT_LIB) $(LDLIBS)
+> #	./gen_lip_gmp_aux > lip_gmp_aux_impl.h
+> 	$(CXXCC) $(NTL_INCLUDE) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -I/home/sme001/opt/include  -o gen_gmp_aux gen_gmp_aux.cpp -L/usr/lib/x86_64-linux-gnu/ $(GMP_OPT_LIB) $(LDLIBS)
