@@ -1,10 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
-wget https://www.openssl.org/source/openssl-1.1.0h.tar.gz
-tar xf openssl-1.1.0h.tar.gz
-cd openssl-1.1.0h
+wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz
+tar xf openssl-1.1.1g.tar.gz
+cd openssl-1.1.1g
 
-emconfigure ./Configure linux-generic64 --prefix=$EMSCRIPTEN/system
+bash_cv_wcwidth_broken=no
+bash_cv_signal_vintage=posix
+ac_cv_lib_util_openpty=no
+ac_cv_lib_dir_opendir=no
+
+emconfigure ./Configure linux-generic64 --prefix=$EMSCRIPTEN/system no-threads no-shared
 
 sed -i 's|^CROSS_COMPILE.*$|CROSS_COMPILE=|g' Makefile
 
